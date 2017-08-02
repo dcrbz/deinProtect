@@ -1,0 +1,70 @@
+MongoDB:
+  Uri: mongodb://127.0.0.1:27017/dev_deinprotect
+
+Key-Item:
+  # The material of the key item.
+  # For a list of all available materials, see:
+  # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+  Material: TRIPWIRE_HOOK
+
+  # The name of the key item.
+  # Color codes (§ and &) can be used.
+  Name: '&rSchlüssel'
+
+  # The lore of the key item.
+  # Every row represents a row in the lore.
+  # Color codes (§ and &) can be used.
+  Lore:
+  - ''
+  - '&7&lRechtsklicke auf einen Block'
+  - '&7&lum ihn zu sichern oder die vorhandene'
+  - '&7&lSicherung zu verwalten.'
+
+  Crafting:
+    # Each row represents a row inside the crafting field.
+    # Every character used here, must be assigned a material,
+    # otherwise it will represent an empty slot.
+    Format:
+    - 'XII'
+    - 'XIX'
+    - 'XTX'
+
+    # For a list of all available materials, see:
+    # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+    Ingredients:
+      T: TRIPWIRE_HOOK
+      I: IRON_INGOT
+
+Protections:
+  Container:
+  - CHEST
+  - TRAPPED_CHEST
+  - FURNACE
+  - BURNING_FURNACE
+  - DISPENSER
+  - DROPPER
+  - ENCHANTMENT_TABLE
+  - ANVIL
+  - BEACON
+  Interactable:
+  - JUKEBOX
+  - CAULDRON
+  - STONE_BUTTON
+  - WOOD_BUTTON
+  - LEVER
+  - ARMOR_STAND
+  Door:
+  - TRAP_DOOR
+  - IRON_TRAPDOOR
+  - SPRUCE_DOOR
+  - BIRCH_DOOR
+  - JUNGLE_DOOR
+  - ACACIA_DOOR
+  - DARK_OAK_DOOR
+  - WOODEN_DOOR
+  - FENCE_GATE
+  - SPRUCE_FENCE_GATE
+  - BIRCH_FENCE_GATE
+  - JUNGLE_FENCE_GATE
+  - DARK_OAK_FENCE_GATE
+  - ACACIA_FENCE_GATE

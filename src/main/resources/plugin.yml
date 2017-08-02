@@ -1,0 +1,5 @@
+name: deinProtect
+version: ${project.version}
+authors: [leNic]
+main: bz.dcr.deinprotect.DeinProtectPlugin
+depend: [dcCore, ItemNBTAPI]
