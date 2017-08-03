@@ -1,0 +1,8 @@
+Prefix: '&a&l&oGeld &8\ &r'
+Date-Format: 'dd.MM.yyyy HH:mm:ss'
+Number-Format: '#,##0.00'
+Number-Format-Decimal-Separator: ','
+Number-Format-Grouping-Separator: '.'
+
+Status:
+  Protection-Created: '&aDer Block wurde erfolgreich gesichert.'

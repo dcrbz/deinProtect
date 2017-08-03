@@ -1,46 +1,56 @@
 package bz.dcr.deinprotect.protection.entity;
 
-import java.util.*;
+import bz.dcr.deinprotect.block.BlockLocation;
+import bz.dcr.deinprotect.protection.ProtectionType;
+import org.bukkit.block.Block;
 
-public abstract class Protection {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
-    private UUID owner;
-    private Map<UUID, ProtectionMember> members;
-    private Set<ProtectionPermission> publicPermissions;
+public class Protection extends AbstractProtection {
+
+    private List<BlockLocation> parts;
 
 
+    // <editor-folding> Constructors
     public Protection() {
-        this.members = new HashMap<>();
-        this.publicPermissions = new HashSet<>();
+        super();
+        this.parts = new ArrayList<>();
     }
 
+    public Protection(UUID owner, ProtectionType type, List<BlockLocation> parts) {
+        super(owner, type);
+        this.parts = parts;
+    }
+    // </editor-folding>
 
-    public UUID getOwner() {
-        return owner;
+
+    public List<Block> getBlocks() {
+        return getParts().stream()
+                .map(BlockLocation::getBlock)
+                .collect(Collectors.toList());
     }
 
-    public void setOwner(UUID owner) {
-        this.owner = owner;
+    public List<BlockLocation> getParts() {
+        return parts;
     }
 
-    public ProtectionMember getMember(UUID playerId) {
-        return members.get(playerId);
+    public void setParts(List<BlockLocation> parts) {
+        this.parts = parts;
     }
 
-    public Map<UUID, ProtectionMember> getMembers() {
-        return members;
+    public void addPart(BlockLocation location) {
+        this.parts.add(location);
     }
 
-    public void setMembers(Map<UUID, ProtectionMember> members) {
-        this.members = members;
+    public void removePart(BlockLocation location) {
+        this.parts.remove(location);
     }
 
-    public Set<ProtectionPermission> getPublicPermissions() {
-        return publicPermissions;
-    }
-
-    public void setPublicPermissions(Set<ProtectionPermission> publicPermissions) {
-        this.publicPermissions = publicPermissions;
+    public boolean hasPart(BlockLocation location) {
+        return parts.contains(location);
     }
 
 }

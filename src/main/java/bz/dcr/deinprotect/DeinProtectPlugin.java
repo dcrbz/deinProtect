@@ -1,16 +1,23 @@
 package bz.dcr.deinprotect;
 
 import bz.dcr.dccore.commons.db.MongoDB;
-import bz.dcr.deinprotect.Config.DeinProtectConfigKey;
+import bz.dcr.deinprotect.config.DeinProtectConfigKey;
+import bz.dcr.deinprotect.lang.LangManager;
+import bz.dcr.deinprotect.listener.InteractListener;
 import bz.dcr.deinprotect.protection.KeyItemProvider;
 import bz.dcr.deinprotect.protection.ProtectionManager;
 import com.mongodb.MongoClientURI;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 public class DeinProtectPlugin extends JavaPlugin {
 
     private static DeinProtectPlugin plugin;
 
+    private LangManager langManager;
     private MongoDB mongoDB;
     private KeyItemProvider keyItemProvider;
     private ProtectionManager protectionManager;
@@ -21,10 +28,13 @@ public class DeinProtectPlugin extends JavaPlugin {
         plugin = this;
 
         saveDefaultConfig();
+        setupLangManager();
         setupMongoDB();
 
         keyItemProvider = new KeyItemProvider();
         protectionManager = new ProtectionManager();
+
+        registerListeners();
     }
 
     @Override
@@ -34,6 +44,28 @@ public class DeinProtectPlugin extends JavaPlugin {
         }
     }
 
+
+    private void setupLangManager() {
+        final File langFile = new File(getDataFolder(), "lang.yml");
+
+        // Create file if not existing
+        if (!langFile.exists()) {
+            try {
+                langFile.getParentFile().mkdirs();
+                saveResource("lang.yml", false);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                getLogger().warning("Could not create language file (lang.yml)!");
+                getServer().getPluginManager().disablePlugin(this);
+            }
+        }
+
+        // Load configuration from file
+        final Configuration langConfig = YamlConfiguration.loadConfiguration(langFile);
+
+        // Initialize LangManager
+        langManager = new LangManager(langConfig);
+    }
 
     /**
      * Connect to the configured database
@@ -46,6 +78,17 @@ public class DeinProtectPlugin extends JavaPlugin {
         mongoDB = new MongoDB(uri, getClassLoader());
     }
 
+    /**
+     * Register all event listeners
+     */
+    private void registerListeners() {
+        getServer().getPluginManager().registerEvents(new InteractListener(), this);
+    }
+
+
+    public LangManager getLangManager() {
+        return langManager;
+    }
 
     public MongoDB getMongoDB() {
         return mongoDB;

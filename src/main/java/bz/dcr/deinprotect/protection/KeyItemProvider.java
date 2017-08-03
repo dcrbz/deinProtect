@@ -1,7 +1,7 @@
 package bz.dcr.deinprotect.protection;
 
-import bz.dcr.deinprotect.Config.DeinProtectConfigKey;
 import bz.dcr.deinprotect.DeinProtectPlugin;
+import bz.dcr.deinprotect.config.DeinProtectConfigKey;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

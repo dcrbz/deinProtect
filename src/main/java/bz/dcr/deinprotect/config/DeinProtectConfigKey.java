@@ -1,4 +1,4 @@
-package bz.dcr.deinprotect.Config;
+package bz.dcr.deinprotect.config;
 
 public interface DeinProtectConfigKey {
 

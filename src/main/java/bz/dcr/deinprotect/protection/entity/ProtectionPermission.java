@@ -2,7 +2,8 @@ package bz.dcr.deinprotect.protection.entity;
 
 public enum ProtectionPermission {
 
-    CONTAINER_OPEN,
+    INTERACT,
+
     CONTAINER_ITEM_PUT,
     CONTAINER_ITEM_TAKE
 
