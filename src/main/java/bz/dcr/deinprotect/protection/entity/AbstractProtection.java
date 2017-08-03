@@ -19,6 +19,7 @@ public abstract class AbstractProtection {
     }
 
     public AbstractProtection(UUID owner, ProtectionType type) {
+        this();
         this.owner = owner;
         this.type = type;
     }

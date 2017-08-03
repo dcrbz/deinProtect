@@ -30,6 +30,9 @@ public class KeyItemProvider {
 
         keyItem = loadItem(config);
         keyItemRecipe = loadRecipe(config, keyItem);
+
+        // Register crafting recipe
+        DeinProtectPlugin.getPlugin().getServer().addRecipe(keyItemRecipe);
     }
 
     private ItemStack loadItem(FileConfiguration config) {

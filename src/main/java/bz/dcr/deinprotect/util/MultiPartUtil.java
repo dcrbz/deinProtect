@@ -29,6 +29,8 @@ public class MultiPartUtil {
     public static List<Block> getDoorParts(Block block) {
         List<Block> parts = new ArrayList<>();
 
+        parts.add(block);
+
         if (block.getState().getData() instanceof Door) {
             final Door door = (Door) block.getState().getData();
 
@@ -39,8 +41,6 @@ public class MultiPartUtil {
             } else {
                 parts.add(block.getRelative(BlockFace.UP));
             }
-        } else if (block.getState() instanceof Openable) {
-            parts.add(block);
         }
 
         return parts;
@@ -48,6 +48,8 @@ public class MultiPartUtil {
 
     public static List<Block> getContainerParts(Block block) {
         List<Block> parts = new ArrayList<>();
+
+        parts.add(block);
 
         if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
             final Material chestType = block.getType();
@@ -63,8 +65,6 @@ public class MultiPartUtil {
             } else if ((secondPart = block.getRelative(BlockFace.WEST)).getType() == chestType) {
                 parts.add(secondPart);
             }
-        } else {
-            parts.add(block);
         }
 
         return parts;
