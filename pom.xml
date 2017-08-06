@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12-R0.1-SNAPSHOT</version>
+            <version>1.12.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -29,7 +29,15 @@
         <dependency>
             <groupId>bz.dcr</groupId>
             <artifactId>dccore-spigot</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- SlimyGuis -->
+        <dependency>
+            <groupId>xyz.upperlevel.spigot.gui</groupId>
+            <artifactId>slimyguis</artifactId>
+            <version>2.1.3</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

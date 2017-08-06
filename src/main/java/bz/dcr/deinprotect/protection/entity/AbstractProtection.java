@@ -49,8 +49,20 @@ public abstract class AbstractProtection {
         return members;
     }
 
+    public boolean hasMember(UUID playerId) {
+        return members.containsKey(playerId);
+    }
+
     public void setMembers(Map<UUID, ProtectionMember> members) {
         this.members = members;
+    }
+
+    public void addMember(UUID playerId, ProtectionMember member) {
+        members.put(playerId, member);
+    }
+
+    public void removeMember(UUID playerId) {
+        members.remove(playerId);
     }
 
     public Set<ProtectionPermission> getPublicPermissions() {

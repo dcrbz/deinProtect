@@ -1,7 +1,9 @@
 package bz.dcr.deinprotect;
 
+import bz.dcr.dccore.DcCorePlugin;
 import bz.dcr.dccore.commons.db.MongoDB;
 import bz.dcr.deinprotect.config.DeinProtectConfigKey;
+import bz.dcr.deinprotect.gui.GUIManager;
 import bz.dcr.deinprotect.lang.LangManager;
 import bz.dcr.deinprotect.listener.InteractListener;
 import bz.dcr.deinprotect.protection.KeyItemProvider;
@@ -9,6 +11,7 @@ import bz.dcr.deinprotect.protection.ProtectionManager;
 import com.mongodb.MongoClientURI;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -18,9 +21,11 @@ public class DeinProtectPlugin extends JavaPlugin {
     private static DeinProtectPlugin plugin;
 
     private LangManager langManager;
+    private DcCorePlugin dcCore;
     private MongoDB mongoDB;
     private KeyItemProvider keyItemProvider;
     private ProtectionManager protectionManager;
+    private GUIManager guiManager;
 
 
     @Override
@@ -29,10 +34,12 @@ public class DeinProtectPlugin extends JavaPlugin {
 
         saveDefaultConfig();
         setupLangManager();
+        setupDcCore();
         setupMongoDB();
 
         keyItemProvider = new KeyItemProvider();
         protectionManager = new ProtectionManager();
+        guiManager = new GUIManager();
 
         registerListeners();
     }
@@ -67,6 +74,18 @@ public class DeinProtectPlugin extends JavaPlugin {
         langManager = new LangManager(langConfig);
     }
 
+    private void setupDcCore() {
+        Plugin dcCorePlugin = getServer().getPluginManager().getPlugin("dcCore");
+
+        if (dcCorePlugin == null) {
+            getLogger().warning("Could not find dcCore!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        dcCore = (DcCorePlugin) dcCorePlugin;
+    }
+
     /**
      * Connect to the configured database
      */
@@ -90,6 +109,10 @@ public class DeinProtectPlugin extends JavaPlugin {
         return langManager;
     }
 
+    public DcCorePlugin getDcCore() {
+        return dcCore;
+    }
+
     public MongoDB getMongoDB() {
         return mongoDB;
     }
@@ -100,6 +123,10 @@ public class DeinProtectPlugin extends JavaPlugin {
 
     public ProtectionManager getProtectionManager() {
         return protectionManager;
+    }
+
+    public GUIManager getGuiManager() {
+        return guiManager;
     }
 
 

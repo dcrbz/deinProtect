@@ -52,6 +52,11 @@ public class ProtectionManager {
                 .save(protection);
     }
 
+    public void deleteProtection(Protection protection) {
+        DeinProtectPlugin.getPlugin().getMongoDB().getDatastore()
+                .delete(protection);
+    }
+
     public Protection createProtection(Player owner, BlockLocation location) {
         // Get type of protection
         final ProtectionType type = protectionTypes.get(location.getBlock().getType());

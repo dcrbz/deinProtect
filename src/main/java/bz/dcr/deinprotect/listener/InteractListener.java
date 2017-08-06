@@ -56,7 +56,10 @@ public class InteractListener implements Listener {
                         DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.PROTECTION_CREATED, true)
                 );
             } else {
-                player.sendMessage("§cDieser Block ist bereits gesichert!");
+                if (protection.hasPermission(player, ProtectionPermission.MANAGE)) {
+                    DeinProtectPlugin.getPlugin().getGuiManager()
+                            .openProtectionGui(player, protection);
+                }
             }
 
             return;

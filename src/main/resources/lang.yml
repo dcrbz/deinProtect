@@ -6,3 +6,23 @@ Number-Format-Grouping-Separator: '.'
 
 Status:
   Protection-Created: '&aDer Block wurde erfolgreich gesichert.'
+  Protection-Deleted: '&cDie Sicherung wurde erfolgreich entfernt.'
+
+Error:
+  Player-Not-Existing: '&cDieser Spieler existiert nicht.'
+  Player-Is-Member: '&cDieser Spieler is bereits Mitglied.'
+  Player-Is-Not-Member: '&cDieser Spieler ist kein Mitglied.'
+
+GUI:
+  Main-Menu:
+    Title: 'Sicherung verwalten'
+    Add-Member: '&aMitglied hinzufügen'
+    Members: '&6Mitglieder'
+    Remove-Member: '&cMitglied entfernen'
+    Delete-Protection: '&cSicherung entfernen'
+  Members:
+    Title: 'Mitglieder verwalten'
+  Add-Member:
+    Message: 'Name des Spielers'
+  Remove-Member:
+    Message: 'Name des Spielers'
