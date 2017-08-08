@@ -1,5 +1,7 @@
 package bz.dcr.deinprotect.gui.window.permission;
 
+import bz.dcr.deinprotect.DeinProtectPlugin;
+import bz.dcr.deinprotect.config.LangKey;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionMember;
 import bz.dcr.deinprotect.protection.entity.ProtectionPermission;
@@ -32,10 +34,18 @@ public abstract class PermissionWindow extends CustomGui {
             return null;
         }
 
-        ItemStack item = (member.hasPermission(permission)) ? buildOnItem() : buildOffItem();
+        final boolean hasPermission = member.hasPermission(permission);
+
+        ItemStack item = hasPermission ? buildOnItem() : buildOffItem();
         ItemMeta itemMeta = item.getItemMeta();
 
-        itemMeta.setDisplayName(permission.toString());
+        // Set display name
+        itemMeta.setDisplayName(
+                DeinProtectPlugin.getPlugin().getLangManager()
+                        .getMessage((hasPermission ? LangKey.GUI_PERMISSIONS_ON : LangKey.GUI_PERMISSIONS_OFF), false) +
+                DeinProtectPlugin.getPlugin().getLangManager()
+                        .getMessage(permission.getLangKey(), false)
+        );
 
         item.setItemMeta(itemMeta);
 

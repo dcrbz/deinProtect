@@ -30,3 +30,15 @@ GUI:
     Message: 'Name des Spielers'
   Permissions:
     Title: 'Rechteverwaltung'
+
+Protection-Permission:
+  Interact: '&eInteragieren'
+  Manage: '&eVerwalten'
+  Break: '&eZerstören'
+  Container-Open: '&eÖffnen'
+  Container-Put-Item: '&eItems hinzufügen'
+  Container-Take-Item: '&eItems nehmen'
+  Door-Open: '&eTür öffnen'
+  Door-Close: '&eTür schließen'
+  Prefix-On: '&2[&a&lAN&2] &r'
+  Prefix-Off: '&4[&c&lAUS&4] &r'

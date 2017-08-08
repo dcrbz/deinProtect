@@ -93,6 +93,11 @@ public class KeyItemProvider {
      * @return Whether the given {@link ItemStack} is a key item or not
      */
     public boolean isKeyItem(ItemStack item) {
+        // No item
+        if (item == null) {
+            return false;
+        }
+
         // No ItemMeta existing
         if (!item.hasItemMeta()) {
             return false;

@@ -3,6 +3,8 @@ package bz.dcr.deinprotect.gui.window;
 import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
 import bz.dcr.deinprotect.gui.window.permission.ContainerPermissionWindow;
+import bz.dcr.deinprotect.gui.window.permission.DoorPermissionWindow;
+import bz.dcr.deinprotect.gui.window.permission.InteractablePermissionWindow;
 import bz.dcr.deinprotect.gui.window.permission.PermissionWindow;
 import bz.dcr.deinprotect.protection.ProtectionType;
 import bz.dcr.deinprotect.protection.entity.Protection;
@@ -86,12 +88,18 @@ public class MembersWindow extends CustomGui {
         // Get player
         final Player player = (Player) event.getWhoClicked();
 
-        PermissionWindow permissionWindow = null;
+        PermissionWindow permissionWindow;
 
+        // Create Permission GUI
         if (protection.getType() == ProtectionType.CONTAINER) {
             permissionWindow = new ContainerPermissionWindow(protection, member.getPlayerId());
+        } else if (protection.getType() == ProtectionType.DOOR) {
+            permissionWindow = new DoorPermissionWindow(protection, member.getPlayerId());
+        } else {
+            permissionWindow = new InteractablePermissionWindow(protection, member.getPlayerId());
         }
 
+        // Open permission GUI
         GuiManager.open(player, permissionWindow);
     }
 

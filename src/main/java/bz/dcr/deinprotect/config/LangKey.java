@@ -28,5 +28,7 @@ public interface LangKey {
     String GUI_REMOVE_MEMBER_MESSAGE = "GUI.Remove-Member.Message";
 
     String GUI_PERMISSIONS_TITLE = "GUI.Permissions.Title";
+    String GUI_PERMISSIONS_ON = "Protection-Permission.Prefix-On";
+    String GUI_PERMISSIONS_OFF = "Protection-Permission.Prefix-Off";
 
 }
