@@ -3,6 +3,7 @@ package bz.dcr.deinprotect.listener;
 import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.block.BlockLocation;
 import bz.dcr.deinprotect.config.LangKey;
+import bz.dcr.deinprotect.protection.ProtectionType;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionPermission;
 import org.bukkit.block.Block;
@@ -12,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.material.Door;
 
 public class InteractListener implements Listener {
 
@@ -74,9 +76,30 @@ public class InteractListener implements Listener {
             return;
         }
 
-        // Player has no permission
-        if (!protection.hasPermission(player, ProtectionPermission.INTERACT)) {
-            event.setCancelled(true);
+        // Check protection permissions
+        if (protection.getType() == ProtectionType.CONTAINER) {
+            event.setCancelled(
+                    !protection.hasPermission(player, ProtectionPermission.CONTAINER_OPEN)
+            );
+        } else if (protection.getType() == ProtectionType.DOOR) {
+            // Check door permissions
+            if (block.getState().getData() instanceof Door) {
+                final Door door = (Door) block.getState().getData();
+                boolean hasOpenPermission;
+
+                if (door.isOpen()) {
+                    hasOpenPermission = protection.hasPermission(player, ProtectionPermission.DOOR_CLOSE);
+                } else {
+                    hasOpenPermission = protection.hasPermission(player, ProtectionPermission.DOOR_OPEN);
+                }
+
+                event.setCancelled(!hasOpenPermission);
+            }
+        } else {
+            // Player is not allowed to interact
+            if (!protection.hasPermission(player, ProtectionPermission.INTERACT)) {
+                event.setCancelled(true);
+            }
         }
     }
 

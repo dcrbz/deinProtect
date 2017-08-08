@@ -84,9 +84,9 @@ public abstract class AbstractProtection {
 
     public void togglePublicPermission(ProtectionPermission permission) {
         if (hasPublicPermission(permission)) {
-            addPublicPermission(permission);
-        } else {
             removePublicPermission(permission);
+        } else {
+            addPublicPermission(permission);
         }
     }
 
@@ -122,7 +122,7 @@ public abstract class AbstractProtection {
         }
 
         // Check public permissions
-        return publicPermissions.contains(permission);
+        return hasPublicPermission(permission);
     }
 
 }
