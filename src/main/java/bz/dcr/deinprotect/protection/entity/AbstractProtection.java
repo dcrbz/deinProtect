@@ -82,6 +82,14 @@ public abstract class AbstractProtection {
         this.publicPermissions = publicPermissions;
     }
 
+    public void togglePublicPermission(ProtectionPermission permission) {
+        if (hasPublicPermission(permission)) {
+            addPublicPermission(permission);
+        } else {
+            removePublicPermission(permission);
+        }
+    }
+
     public void addPublicPermission(ProtectionPermission permission) {
         publicPermissions.add(permission);
     }

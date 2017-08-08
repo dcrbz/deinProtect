@@ -1,4 +1,4 @@
-package bz.dcr.deinprotect.gui.window.permission;
+package bz.dcr.deinprotect.gui.window.permission.pub;
 
 import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
@@ -9,32 +9,27 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import xyz.upperlevel.spigot.gui.GuiManager;
 
-import java.util.UUID;
+public class PublicDoorPermissionWindow extends PublicPermissionWindow {
 
-public class ContainerPermissionWindow extends PermissionWindow {
-
-    private static final int SLOT_OPEN = 0;
-    private static final int SLOT_PUT_ITEM = 1;
-    private static final int SLOT_TAKE_ITEM = 2;
-    private static final int SLOT_MANAGE = 3;
-    private static final int SLOT_BREAK = 4;
+    private static final int SLOT_DOOR_OPEN = 0;
+    private static final int SLOT_DOOR_CLOSE = 1;
+    private static final int SLOT_MANAGE = 2;
+    private static final int SLOT_BREAK = 3;
 
 
-    public ContainerPermissionWindow(Protection protection, UUID memberId) {
+    public PublicDoorPermissionWindow(Protection protection) {
         super(
                 9,
                 DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.GUI_PERMISSIONS_TITLE, false),
-                protection,
-                memberId
+                protection
         );
     }
 
 
     @Override
     public void show(Player player) {
-        setItem(SLOT_OPEN, buildPermissionSwitch(ProtectionPermission.CONTAINER_OPEN));
-        setItem(SLOT_PUT_ITEM, buildPermissionSwitch(ProtectionPermission.CONTAINER_PUT_ITEM));
-        setItem(SLOT_TAKE_ITEM, buildPermissionSwitch(ProtectionPermission.CONTAINER_TAKE_ITEM));
+        setItem(SLOT_DOOR_OPEN, buildPermissionSwitch(ProtectionPermission.DOOR_OPEN));
+        setItem(SLOT_DOOR_CLOSE, buildPermissionSwitch(ProtectionPermission.DOOR_CLOSE));
         setItem(SLOT_MANAGE, buildPermissionSwitch(ProtectionPermission.MANAGE));
         setItem(SLOT_BREAK, buildPermissionSwitch(ProtectionPermission.BREAK));
 
@@ -47,31 +42,24 @@ public class ContainerPermissionWindow extends PermissionWindow {
         final Player player = (Player) event.getWhoClicked();
 
         switch (event.getSlot()) {
-            case SLOT_OPEN: {
-                getMember().togglePermission(ProtectionPermission.CONTAINER_OPEN);
+            case SLOT_DOOR_OPEN: {
+                getProtection().togglePublicPermission(ProtectionPermission.DOOR_OPEN);
                 break;
             }
-            case SLOT_PUT_ITEM: {
-                getMember().togglePermission(ProtectionPermission.CONTAINER_PUT_ITEM);
-                break;
-            }
-            case SLOT_TAKE_ITEM: {
-                getMember().togglePermission(ProtectionPermission.CONTAINER_TAKE_ITEM);
+            case SLOT_DOOR_CLOSE: {
+                getProtection().togglePublicPermission(ProtectionPermission.DOOR_CLOSE);
                 break;
             }
             case SLOT_MANAGE: {
-                getMember().togglePermission(ProtectionPermission.MANAGE);
+                getProtection().togglePublicPermission(ProtectionPermission.MANAGE);
                 break;
             }
             case SLOT_BREAK: {
-                getMember().togglePermission(ProtectionPermission.BREAK);
+                getProtection().togglePublicPermission(ProtectionPermission.BREAK);
                 break;
             }
             default: return;
         }
-
-        // Update member
-        getProtection().putMember(getMember());
 
         // Save protection
         Bukkit.getScheduler().runTaskAsynchronously(DeinProtectPlugin.getPlugin(), () -> {

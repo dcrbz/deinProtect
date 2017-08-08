@@ -1,4 +1,4 @@
-package bz.dcr.deinprotect.gui.window.permission;
+package bz.dcr.deinprotect.gui.window.permission.pub;
 
 import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
@@ -9,30 +9,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import xyz.upperlevel.spigot.gui.GuiManager;
 
-import java.util.UUID;
+public class PublicInteractablePermissionWindow extends PublicPermissionWindow {
 
-public class DoorPermissionWindow extends PermissionWindow {
-
-    private static final int SLOT_DOOR_OPEN = 0;
-    private static final int SLOT_DOOR_CLOSE = 1;
-    private static final int SLOT_MANAGE = 2;
-    private static final int SLOT_BREAK = 3;
+    private static final int SLOT_INTERACT = 0;
+    private static final int SLOT_MANAGE = 1;
+    private static final int SLOT_BREAK = 2;
 
 
-    public DoorPermissionWindow(Protection protection, UUID memberId) {
+    public PublicInteractablePermissionWindow(Protection protection) {
         super(
                 9,
                 DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.GUI_PERMISSIONS_TITLE, false),
-                protection,
-                memberId
+                protection
         );
     }
 
 
     @Override
     public void show(Player player) {
-        setItem(SLOT_DOOR_OPEN, buildPermissionSwitch(ProtectionPermission.DOOR_OPEN));
-        setItem(SLOT_DOOR_CLOSE, buildPermissionSwitch(ProtectionPermission.DOOR_CLOSE));
+        setItem(SLOT_INTERACT, buildPermissionSwitch(ProtectionPermission.INTERACT));
         setItem(SLOT_MANAGE, buildPermissionSwitch(ProtectionPermission.MANAGE));
         setItem(SLOT_BREAK, buildPermissionSwitch(ProtectionPermission.BREAK));
 
@@ -45,27 +40,20 @@ public class DoorPermissionWindow extends PermissionWindow {
         final Player player = (Player) event.getWhoClicked();
 
         switch (event.getSlot()) {
-            case SLOT_DOOR_OPEN: {
-                getMember().togglePermission(ProtectionPermission.DOOR_OPEN);
-                break;
-            }
-            case SLOT_DOOR_CLOSE: {
-                getMember().togglePermission(ProtectionPermission.DOOR_CLOSE);
+            case SLOT_INTERACT: {
+                getProtection().togglePublicPermission(ProtectionPermission.INTERACT);
                 break;
             }
             case SLOT_MANAGE: {
-                getMember().togglePermission(ProtectionPermission.MANAGE);
+                getProtection().togglePublicPermission(ProtectionPermission.MANAGE);
                 break;
             }
             case SLOT_BREAK: {
-                getMember().togglePermission(ProtectionPermission.BREAK);
+                getProtection().togglePublicPermission(ProtectionPermission.BREAK);
                 break;
             }
             default: return;
         }
-
-        // Update member
-        getProtection().putMember(getMember());
 
         // Save protection
         Bukkit.getScheduler().runTaskAsynchronously(DeinProtectPlugin.getPlugin(), () -> {

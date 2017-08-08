@@ -21,6 +21,7 @@ public interface LangKey {
     String GUI_MAIN_MENU_ADD_MEMBER = "GUI.Main-Menu.Add-Member";
     String GUI_MAIN_MENU_MEMBERS = "GUI.Main-Menu.Members";
     String GUI_MAIN_MENU_REMOVE_MEMBER = "GUI.Main-Menu.Remove-Member";
+    String GUI_MAIN_MENU_PUBLIC_PERMS = "GUI.Main-Menu.Public-Permissions";
     String GUI_MAIN_MENU_DELETE_PROTECTION = "GUI.Main-Menu.Delete-Protection";
 
     String GUI_MEMBERS_TITLE = "GUI.Members.Title";

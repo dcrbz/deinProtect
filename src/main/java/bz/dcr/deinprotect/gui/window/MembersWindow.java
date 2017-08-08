@@ -2,10 +2,10 @@ package bz.dcr.deinprotect.gui.window;
 
 import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
-import bz.dcr.deinprotect.gui.window.permission.ContainerPermissionWindow;
-import bz.dcr.deinprotect.gui.window.permission.DoorPermissionWindow;
-import bz.dcr.deinprotect.gui.window.permission.InteractablePermissionWindow;
-import bz.dcr.deinprotect.gui.window.permission.PermissionWindow;
+import bz.dcr.deinprotect.gui.window.permission.player.ContainerPermissionWindow;
+import bz.dcr.deinprotect.gui.window.permission.player.DoorPermissionWindow;
+import bz.dcr.deinprotect.gui.window.permission.player.InteractablePermissionWindow;
+import bz.dcr.deinprotect.gui.window.permission.player.PermissionWindow;
 import bz.dcr.deinprotect.protection.ProtectionType;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionMember;

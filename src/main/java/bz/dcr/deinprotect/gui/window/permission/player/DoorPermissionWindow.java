@@ -1,4 +1,4 @@
-package bz.dcr.deinprotect.gui.window.permission;
+package bz.dcr.deinprotect.gui.window.permission.player;
 
 import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
@@ -11,14 +11,15 @@ import xyz.upperlevel.spigot.gui.GuiManager;
 
 import java.util.UUID;
 
-public class InteractablePermissionWindow extends PermissionWindow {
+public class DoorPermissionWindow extends PermissionWindow {
 
-    private static final int SLOT_INTERACT = 0;
-    private static final int SLOT_MANAGE = 1;
-    private static final int SLOT_BREAK = 2;
+    private static final int SLOT_DOOR_OPEN = 0;
+    private static final int SLOT_DOOR_CLOSE = 1;
+    private static final int SLOT_MANAGE = 2;
+    private static final int SLOT_BREAK = 3;
 
 
-    public InteractablePermissionWindow(Protection protection, UUID memberId) {
+    public DoorPermissionWindow(Protection protection, UUID memberId) {
         super(
                 9,
                 DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.GUI_PERMISSIONS_TITLE, false),
@@ -30,7 +31,8 @@ public class InteractablePermissionWindow extends PermissionWindow {
 
     @Override
     public void show(Player player) {
-        setItem(SLOT_INTERACT, buildPermissionSwitch(ProtectionPermission.INTERACT));
+        setItem(SLOT_DOOR_OPEN, buildPermissionSwitch(ProtectionPermission.DOOR_OPEN));
+        setItem(SLOT_DOOR_CLOSE, buildPermissionSwitch(ProtectionPermission.DOOR_CLOSE));
         setItem(SLOT_MANAGE, buildPermissionSwitch(ProtectionPermission.MANAGE));
         setItem(SLOT_BREAK, buildPermissionSwitch(ProtectionPermission.BREAK));
 
@@ -43,8 +45,12 @@ public class InteractablePermissionWindow extends PermissionWindow {
         final Player player = (Player) event.getWhoClicked();
 
         switch (event.getSlot()) {
-            case SLOT_INTERACT: {
-                getMember().togglePermission(ProtectionPermission.INTERACT);
+            case SLOT_DOOR_OPEN: {
+                getMember().togglePermission(ProtectionPermission.DOOR_OPEN);
+                break;
+            }
+            case SLOT_DOOR_CLOSE: {
+                getMember().togglePermission(ProtectionPermission.DOOR_CLOSE);
                 break;
             }
             case SLOT_MANAGE: {

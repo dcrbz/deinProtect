@@ -21,6 +21,7 @@ GUI:
     Add-Member: '&aMitglied hinzufügen'
     Members: '&6Mitglieder'
     Remove-Member: '&cMitglied entfernen'
+    Public-Permissions: '&6Öffentliche Berechtigungen'
     Delete-Protection: '&cSicherung entfernen'
   Members:
     Title: 'Mitglieder verwalten'
