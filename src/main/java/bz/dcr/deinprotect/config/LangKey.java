@@ -10,6 +10,8 @@ public interface LangKey {
 
     String PROTECTION_CREATED = "Status.Protection-Created";
     String PROTECTION_DELETED = "Status.Protection-Deleted";
+    String MEMBER_ADDED = "Status.Member-Added";
+    String MEMBER_REMOVED = "Status.Member-Removed";
 
     String ERR_PLAYER_NOT_EXISTING = "Error.Player-Not-Existing";
     String ERR_PLAYER_IS_MEMBER = "Error.Player-Is-Member";
@@ -24,5 +26,7 @@ public interface LangKey {
     String GUI_MEMBERS_TITLE = "GUI.Members.Title";
     String GUI_ADD_MEMBER_MESSAGE = "GUI.Add-Member.Message";
     String GUI_REMOVE_MEMBER_MESSAGE = "GUI.Remove-Member.Message";
+
+    String GUI_PERMISSIONS_TITLE = "GUI.Permissions.Title";
 
 }

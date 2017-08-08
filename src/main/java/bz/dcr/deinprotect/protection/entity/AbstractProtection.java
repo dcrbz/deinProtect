@@ -42,27 +42,32 @@ public abstract class AbstractProtection {
     }
 
     public ProtectionMember getMember(UUID playerId) {
-        return members.get(playerId);
+        for (ProtectionMember member : members.values()) {
+            if (member.getPlayerId().equals(playerId)) {
+                return member;
+            }
+        }
+        return null;
     }
 
-    public Map<UUID, ProtectionMember> getMembers() {
-        return members;
+    public Collection<ProtectionMember> getMembers() {
+        return members.values();
     }
 
     public boolean hasMember(UUID playerId) {
-        return members.containsKey(playerId);
+        return getMember(playerId) != null;
     }
 
     public void setMembers(Map<UUID, ProtectionMember> members) {
         this.members = members;
     }
 
-    public void addMember(UUID playerId, ProtectionMember member) {
-        members.put(playerId, member);
+    public void putMember(ProtectionMember member) {
+        members.put(member.getPlayerId(), member);
     }
 
-    public void removeMember(UUID playerId) {
-        members.remove(playerId);
+    public void removeMember(UUID memberId) {
+        members.remove(memberId);
     }
 
     public Set<ProtectionPermission> getPublicPermissions() {

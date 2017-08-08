@@ -10,9 +10,13 @@ public class ProtectionMember {
     private Set<ProtectionPermission> permissions;
 
 
+    public ProtectionMember() {
+        permissions = new HashSet<>();
+    }
+
     public ProtectionMember(UUID playerId) {
+        this();
         this.playerId = playerId;
-        this.permissions = new HashSet<>();
     }
 
     public ProtectionMember(UUID playerId, Set<ProtectionPermission> permissions) {
@@ -47,6 +51,14 @@ public class ProtectionMember {
 
     public void removePermission(ProtectionPermission permission) {
         permissions.remove(permission);
+    }
+
+    public void togglePermission(ProtectionPermission permission) {
+        if (hasPermission(permission)) {
+            removePermission(permission);
+        } else {
+            addPermission(permission);
+        }
     }
 
 }

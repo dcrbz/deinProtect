@@ -4,8 +4,13 @@ public enum ProtectionPermission {
 
     INTERACT,
     MANAGE,
+    BREAK,
 
-    CONTAINER_ITEM_PUT,
-    CONTAINER_ITEM_TAKE
+    CONTAINER_OPEN,
+    CONTAINER_PUT_ITEM,
+    CONTAINER_TAKE_ITEM,
+
+    DOOR_OPEN,
+    DOOR_CLOSE
 
 }

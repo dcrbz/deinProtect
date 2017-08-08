@@ -7,6 +7,8 @@ Number-Format-Grouping-Separator: '.'
 Status:
   Protection-Created: '&aDer Block wurde erfolgreich gesichert.'
   Protection-Deleted: '&cDie Sicherung wurde erfolgreich entfernt.'
+  Member-Added: '&aDer Spieler wurde erfolgreich hinzugefügt.'
+  Member-Removed: '&aDer Spieler wurde erfolgreich entfernt.'
 
 Error:
   Player-Not-Existing: '&cDieser Spieler existiert nicht.'
@@ -26,3 +28,5 @@ GUI:
     Message: 'Name des Spielers'
   Remove-Member:
     Message: 'Name des Spielers'
+  Permissions:
+    Title: 'Rechteverwaltung'

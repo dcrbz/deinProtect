@@ -4,6 +4,7 @@ import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionMember;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -63,6 +64,7 @@ public class MainMenuWindow extends CustomGui {
                                         DeinProtectPlugin.getPlugin().getLangManager()
                                                 .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
                                 );
+                                GuiManager.close(player1);
                                 return "";
                             }
 
@@ -72,11 +74,16 @@ public class MainMenuWindow extends CustomGui {
                                         DeinProtectPlugin.getPlugin().getLangManager()
                                                 .getMessage(LangKey.ERR_PLAYER_IS_NOT_MEMBER, true)
                                 );
+                                GuiManager.close(player1);
                                 return "";
                             }
 
+                            GuiManager.close(player1);
                             protection.removeMember(playerId);
-                            DeinProtectPlugin.getPlugin().getProtectionManager().saveProtection(protection);
+                            saveProtection();
+                            player1.sendMessage(
+                                    DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.MEMBER_REMOVED, true)
+                            );
 
                             return "";
                         });
@@ -84,7 +91,7 @@ public class MainMenuWindow extends CustomGui {
                 break;
             }
             case SLOT_MEMBERS: {
-                GuiManager.change(player, new MembersWindow(protection));
+                Gui membersGui = new MembersWindow(protection, player);
                 break;
             }
             case SLOT_ADD_MEMBER: {
@@ -102,6 +109,7 @@ public class MainMenuWindow extends CustomGui {
                                         DeinProtectPlugin.getPlugin().getLangManager()
                                                 .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
                                 );
+                                GuiManager.close(player1);
                                 return "";
                             }
 
@@ -111,11 +119,16 @@ public class MainMenuWindow extends CustomGui {
                                         DeinProtectPlugin.getPlugin().getLangManager()
                                                 .getMessage(LangKey.ERR_PLAYER_IS_MEMBER, true)
                                 );
+                                GuiManager.close(player1);
                                 return "";
                             }
 
-                            protection.addMember(playerId, new ProtectionMember(playerId));
-                            DeinProtectPlugin.getPlugin().getProtectionManager().saveProtection(protection);
+                            GuiManager.close(player1);
+                            protection.putMember(new ProtectionMember(playerId));
+                            saveProtection();
+                            player1.sendMessage(
+                                    DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.MEMBER_ADDED, true)
+                            );
 
                             return "";
                         });
@@ -184,6 +197,13 @@ public class MainMenuWindow extends CustomGui {
         itemStack.setItemMeta(itemMeta);
 
         return itemStack;
+    }
+
+
+    private void saveProtection() {
+        Bukkit.getScheduler().runTaskAsynchronously(DeinProtectPlugin.getPlugin(), () -> {
+            DeinProtectPlugin.getPlugin().getProtectionManager().saveProtection(protection);
+        });
     }
 
 }
