@@ -64,6 +64,11 @@ public class ProtectionManager {
             // Delete protection
             deleteProtection(protection);
         } else if (protection.getParts().size() > 1) {
+            // Delete entire door
+            if (protection.getType() == ProtectionType.DOOR) {
+                deleteProtection(protection);
+            }
+
             // Remove part from protection
             protection.removePart(location);
 

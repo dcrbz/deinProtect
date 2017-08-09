@@ -16,13 +16,28 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+        // Get block
         final Block block = event.getBlock();
+
+        // Block is not protectable
+        if (!DeinProtectPlugin.getPlugin().getProtectionManager().isProtectable(block)) {
+            return;
+        }
+
+        // Create BlockLocation
         final BlockLocation blockLocation = new BlockLocation(block);
+
+        // Get player
         final Player player = event.getPlayer();
 
         // Get protection
         final Protection protection = DeinProtectPlugin.getPlugin().getProtectionManager()
                 .getProtection(blockLocation);
+
+        // Block is not protected
+        if (protection == null) {
+            return;
+        }
 
         // Player is not allowed to break block
         if (!protection.hasPermission(player, ProtectionPermission.BREAK)) {
