@@ -57,6 +57,21 @@ public class ProtectionManager {
                 .delete(protection);
     }
 
+    public void deleteProtectionPart(BlockLocation location) {
+        final Protection protection = getProtection(location);
+
+        if (protection.getParts().size() == 1) {
+            // Delete protection
+            deleteProtection(protection);
+        } else if (protection.getParts().size() > 1) {
+            // Remove part from protection
+            protection.removePart(location);
+
+            // Save protection
+            saveProtection(protection);
+        }
+    }
+
     public Protection createProtection(Player owner, BlockLocation location) {
         // Get type of protection
         final ProtectionType type = protectionTypes.get(location.getBlock().getType());
