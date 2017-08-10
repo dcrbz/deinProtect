@@ -6,6 +6,7 @@ import bz.dcr.deinprotect.config.DeinProtectConfigKey;
 import bz.dcr.deinprotect.gui.GUIManager;
 import bz.dcr.deinprotect.lang.LangManager;
 import bz.dcr.deinprotect.listener.BlockBreakListener;
+import bz.dcr.deinprotect.listener.BlockPlaceListener;
 import bz.dcr.deinprotect.listener.InteractListener;
 import bz.dcr.deinprotect.listener.InventoryListener;
 import bz.dcr.deinprotect.protection.KeyItemProvider;
@@ -106,6 +107,7 @@ public class DeinProtectPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InteractListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
     }
 
 

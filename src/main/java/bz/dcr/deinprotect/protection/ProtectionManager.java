@@ -110,6 +110,10 @@ public class ProtectionManager {
     }
 
     public boolean isProtectable(Block block) {
+        if (block == null) {
+            return false;
+        }
+
         return protectionTypes.containsKey(block.getType());
     }
 
