@@ -21,6 +21,7 @@ public class InventoryListener implements Listener {
             InventoryAction.PLACE_SOME,
             InventoryAction.SWAP_WITH_CURSOR
     };
+
     private static final InventoryAction[] takeActions = {
             InventoryAction.DROP_ALL_CURSOR,
             InventoryAction.DROP_ALL_SLOT,
@@ -73,7 +74,7 @@ public class InventoryListener implements Listener {
         // Check if player has permission
         if (!protection.hasPermission(player, ProtectionPermission.CONTAINER_PUT_ITEM) && isPutAction(event.getAction())) {
             event.setCancelled(true);
-        } else if (!protection.hasPermission(player, ProtectionPermission.CONTAINER_TAKE_ITEM) && isPutAction(event.getAction())) {
+        } else if (!protection.hasPermission(player, ProtectionPermission.CONTAINER_TAKE_ITEM) && isTakeAction(event.getAction())) {
             event.setCancelled(true);
         }
     }
