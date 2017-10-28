@@ -2,4 +2,4 @@ name: deinProtect
 version: ${project.version}
 authors: [leNic]
 main: bz.dcr.deinprotect.DeinProtectPlugin
-depend: [dcCore, SlimyGuis]
+depend: [dcCore, SlimyGuis, WorldEdit]

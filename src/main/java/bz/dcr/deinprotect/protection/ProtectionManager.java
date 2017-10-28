@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The {@link ProtectionManager} manages saving, loading and modifying
+ * Protections.
+ */
 public class ProtectionManager {
 
     private Map<Material, ProtectionType> protectionTypes;
@@ -29,6 +33,11 @@ public class ProtectionManager {
     }
 
 
+    /**
+     * Load a {@link ProtectionType} from the plugin configuration
+     * @param typePath The path to the protection type list
+     * @param type The type the block types are related to
+     */
     private void loadProtectionType(String typePath, ProtectionType type) {
         final FileConfiguration config = DeinProtectPlugin.getPlugin().getConfig();
 
@@ -47,16 +56,28 @@ public class ProtectionManager {
     }
 
 
+    /**
+     * Save a single {@link Protection} to the database
+     * @param protection The {@link Protection} to save
+     */
     public void saveProtection(Protection protection) {
         DeinProtectPlugin.getPlugin().getMongoDB().getDatastore()
                 .save(protection);
     }
 
+    /**
+     * Delete a single {@link Protection} from the database
+     * @param protection The {@link Protection} to delete
+     */
     public void deleteProtection(Protection protection) {
         DeinProtectPlugin.getPlugin().getMongoDB().getDatastore()
                 .delete(protection);
     }
 
+    /**
+     * Delete a single part of a {@link Protection}
+     * @param location The {@link BlockLocation} of the protection part
+     */
     public void deleteProtectionPart(BlockLocation location) {
         final Protection protection = getProtection(location);
 
@@ -77,6 +98,12 @@ public class ProtectionManager {
         }
     }
 
+    /**
+     * Create a new {@link Protection}
+     * @param owner The owner of the {@link Protection}
+     * @param location The {@link BlockLocation} of the protection
+     * @return The newly created {@link Protection}
+     */
     public Protection createProtection(Player owner, BlockLocation location) {
         // Get type of protection
         final ProtectionType type = protectionTypes.get(location.getBlock().getType());
@@ -101,6 +128,11 @@ public class ProtectionManager {
         return protection;
     }
 
+    /**
+     * Get a {@link Protection} by it's {@link BlockLocation}
+     * @param location The {@link BlockLocation} of the {@link Protection}
+     * @return The {@link Protection} at the specified {@link BlockLocation}
+     */
     public Protection getProtection(BlockLocation location) {
         return DeinProtectPlugin.getPlugin().getMongoDB().getDatastore()
                 .createQuery(Protection.class)
@@ -109,6 +141,11 @@ public class ProtectionManager {
                 .get();
     }
 
+    /**
+     * Check whether a {@link Block} is protectable or not
+     * @param block The {@link Block} to check
+     * @return Whether the specified {@link Block} is protectable or not
+     */
     public boolean isProtectable(Block block) {
         if (block == null) {
             return false;

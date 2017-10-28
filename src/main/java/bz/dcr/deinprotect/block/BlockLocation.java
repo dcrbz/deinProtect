@@ -104,6 +104,11 @@ public class BlockLocation implements Serializable {
 
 
     @Override
+    public String toString() {
+        return "{\"worldId\": \"" + worldId.toString() + "\", \"posX\": " + posX + ", \"posY\": " + posY + ", \"posZ\": " + posZ + "}";
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof BlockLocation)) {
             return false;

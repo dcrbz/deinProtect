@@ -9,9 +9,11 @@ import bz.dcr.deinprotect.listener.BlockBreakListener;
 import bz.dcr.deinprotect.listener.BlockPlaceListener;
 import bz.dcr.deinprotect.listener.InteractListener;
 import bz.dcr.deinprotect.listener.InventoryListener;
+import bz.dcr.deinprotect.listener.worldedit.WorldEditEventHandler;
 import bz.dcr.deinprotect.protection.KeyItemProvider;
 import bz.dcr.deinprotect.protection.ProtectionManager;
 import com.mongodb.MongoClientURI;
+import com.sk89q.worldedit.WorldEdit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -44,7 +46,11 @@ public class DeinProtectPlugin extends JavaPlugin {
         protectionManager = new ProtectionManager();
         guiManager = new GUIManager();
 
+        // Register event listeners
         registerListeners();
+
+        // Register WorldEdit handler
+        WorldEdit.getInstance().getEventBus().register(new WorldEditEventHandler(this));
     }
 
     @Override
