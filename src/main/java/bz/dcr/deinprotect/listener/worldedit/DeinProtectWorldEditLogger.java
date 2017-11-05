@@ -35,6 +35,8 @@ public class DeinProtectWorldEditLogger extends AbstractLoggingExtent {
                 position.getBlockZ()
         );
 
+        plugin.getLogger().info("WorldEdit block change at " + location.toString());
+
         // Block is not protectable
         if (!plugin.getProtectionManager().isProtectable(location.getBlock())) {
             return;
