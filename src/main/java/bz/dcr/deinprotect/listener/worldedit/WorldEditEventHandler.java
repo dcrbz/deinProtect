@@ -26,7 +26,7 @@ public class WorldEditEventHandler {
         }
 
         // WorldEdit logger extent
-        event.setExtent(new DeinProtectWorldEditLogger(event.getExtent(), world, plugin));
+        event.setExtent(new DeinProtectBlocksHubLogger(event.getExtent(), world, plugin));
     }
 
 }

@@ -9,15 +9,15 @@ import bz.dcr.deinprotect.listener.BlockBreakListener;
 import bz.dcr.deinprotect.listener.BlockPlaceListener;
 import bz.dcr.deinprotect.listener.InteractListener;
 import bz.dcr.deinprotect.listener.InventoryListener;
-import bz.dcr.deinprotect.listener.worldedit.WorldEditEventHandler;
+import bz.dcr.deinprotect.listener.worldedit.DeinProtectBlocksHubLogger;
 import bz.dcr.deinprotect.protection.KeyItemProvider;
 import bz.dcr.deinprotect.protection.ProtectionManager;
 import com.mongodb.MongoClientURI;
-import com.sk89q.worldedit.WorldEdit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.primesoft.blockshub.BlocksHubBukkit;
 
 import java.io.File;
 
@@ -27,6 +27,7 @@ public class DeinProtectPlugin extends JavaPlugin {
 
     private LangManager langManager;
     private DcCorePlugin dcCore;
+    private BlocksHubBukkit blocksHub;
     private MongoDB mongoDB;
     private KeyItemProvider keyItemProvider;
     private ProtectionManager protectionManager;
@@ -41,6 +42,7 @@ public class DeinProtectPlugin extends JavaPlugin {
         setupLangManager();
         setupDcCore();
         setupMongoDB();
+        setupBlocksHub();
 
         keyItemProvider = new KeyItemProvider();
         protectionManager = new ProtectionManager();
@@ -49,8 +51,8 @@ public class DeinProtectPlugin extends JavaPlugin {
         // Register event listeners
         registerListeners();
 
-        // Register WorldEdit handler
-        WorldEdit.getInstance().getEventBus().register(new WorldEditEventHandler(this));
+        // Register BlocksHub logger
+        getBlocksHub().getApi().registerBlocksLogger(new DeinProtectBlocksHubLogger(this));
     }
 
     @Override
@@ -106,6 +108,18 @@ public class DeinProtectPlugin extends JavaPlugin {
         mongoDB = new MongoDB(uri, getClassLoader());
     }
 
+    private void setupBlocksHub() {
+        Plugin blocksHubPlugin = getServer().getPluginManager().getPlugin("BlocksHub");
+
+        if (blocksHubPlugin == null) {
+            getLogger().warning("Could not find BlocksHub!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        blocksHub = (BlocksHubBukkit) blocksHubPlugin;
+    }
+
     /**
      * Register all event listeners
      */
@@ -123,6 +137,10 @@ public class DeinProtectPlugin extends JavaPlugin {
 
     public DcCorePlugin getDcCore() {
         return dcCore;
+    }
+
+    public BlocksHubBukkit getBlocksHub() {
+        return blocksHub;
     }
 
     public MongoDB getMongoDB() {
