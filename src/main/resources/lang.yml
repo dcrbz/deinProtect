@@ -9,11 +9,14 @@ Status:
   Protection-Deleted: '&cDie Sicherung wurde erfolgreich entfernt.'
   Member-Added: '&aDer Spieler wurde erfolgreich hinzugefügt.'
   Member-Removed: '&aDer Spieler wurde erfolgreich entfernt.'
+  Key-Given: '&aDu hast einen Schlüssel erhalten.'
 
 Error:
   Player-Not-Existing: '&cDieser Spieler existiert nicht.'
   Player-Is-Member: '&cDieser Spieler is bereits Mitglied.'
   Player-Is-Not-Member: '&cDieser Spieler ist kein Mitglied.'
+  Player-Command: '&cDieser Befehl kann nur als Spieler ausgeführt werden.'
+  No-Permission: '&cDu hast keine Berechtigung dafür.'
 
 GUI:
   Main-Menu:

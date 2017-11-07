@@ -2,6 +2,7 @@ package bz.dcr.deinprotect;
 
 import bz.dcr.dccore.DcCorePlugin;
 import bz.dcr.dccore.commons.db.MongoDB;
+import bz.dcr.deinprotect.cmd.DeinProtectCommand;
 import bz.dcr.deinprotect.config.DeinProtectConfigKey;
 import bz.dcr.deinprotect.gui.GUIManager;
 import bz.dcr.deinprotect.lang.LangManager;
@@ -53,6 +54,9 @@ public class DeinProtectPlugin extends JavaPlugin {
 
         // Register BlocksHub logger
         getBlocksHub().getApi().registerBlocksLogger(new DeinProtectBlocksHubLogger(this));
+
+        // Register command
+        getCommand("deinprotect").setExecutor(new DeinProtectCommand(this));
     }
 
     @Override

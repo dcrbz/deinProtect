@@ -12,10 +12,13 @@ public interface LangKey {
     String PROTECTION_DELETED = "Status.Protection-Deleted";
     String MEMBER_ADDED = "Status.Member-Added";
     String MEMBER_REMOVED = "Status.Member-Removed";
+    String KEY_GIVEN = "Status.Key-Given";
 
     String ERR_PLAYER_NOT_EXISTING = "Error.Player-Not-Existing";
     String ERR_PLAYER_IS_MEMBER = "Error.Player-Is-Member";
     String ERR_PLAYER_IS_NOT_MEMBER = "Error.Player-Is-Not-Member";
+    String ERR_PLAYER_COMMAND = "Error.Player-Command";
+    String ERR_NO_PERMISSION = "Error.No-Permission";
 
     String GUI_MAIN_MENU_TITLE = "GUI.Main-Menu.Title";
     String GUI_MAIN_MENU_ADD_MEMBER = "GUI.Main-Menu.Add-Member";

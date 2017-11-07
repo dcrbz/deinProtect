@@ -3,3 +3,9 @@ version: ${project.version}
 authors: [leNic]
 main: bz.dcr.deinprotect.DeinProtectPlugin
 depend: [dcCore, SlimyGuis, BlocksHub]
+
+commands:
+  deinprotect:
+    usage: /<command> <key>
+    description: deinProtect Befehl
+    aliases: [dp, dprotect]
