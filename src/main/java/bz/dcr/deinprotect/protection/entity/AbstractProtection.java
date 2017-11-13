@@ -108,6 +108,11 @@ public abstract class AbstractProtection {
 
 
     public boolean hasPermission(Player player, ProtectionPermission permission) {
+        // Player has bypass permission
+        if (player.hasPermission(permission.getBypassPermission())) {
+            return true;
+        }
+
         // Player is owner
         if (isOwner(player)) {
             return true;

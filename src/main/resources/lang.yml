@@ -13,7 +13,7 @@ Status:
 
 Error:
   Player-Not-Existing: '&cDieser Spieler existiert nicht.'
-  Player-Is-Member: '&cDieser Spieler is bereits Mitglied.'
+  Player-Is-Member: '&cDieser Spieler ist bereits Mitglied.'
   Player-Is-Not-Member: '&cDieser Spieler ist kein Mitglied.'
   Player-Command: '&cDieser Befehl kann nur als Spieler ausgeführt werden.'
   No-Permission: '&cDu hast keine Berechtigung dafür.'
