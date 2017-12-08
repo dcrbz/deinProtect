@@ -14,10 +14,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.Door;
+import org.primesoft.blockshub.api.Vector;
 
 public class InteractListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent event) {
         // Event was cancelled
         if (event.isCancelled()) {
@@ -36,6 +37,15 @@ public class InteractListener implements Listener {
         // Block can not be protected
         if (!DeinProtectPlugin.getPlugin().getProtectionManager().isProtectable(block)) {
             return;
+        }
+
+        // Uncancel event if player has access to block
+        if (event.isCancelled()) {
+            final boolean hasAccess = DeinProtectPlugin.getPlugin().getBlocksHub()
+                    .getApi().hasAccess(player.getUniqueId(), block.getWorld().getUID(),
+                            new Vector(block.getX(), block.getY(), block.getZ()));
+
+            event.setCancelled(!hasAccess);
         }
 
         // Using key item

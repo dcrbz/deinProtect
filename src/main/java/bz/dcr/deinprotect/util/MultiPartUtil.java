@@ -41,6 +41,8 @@ public class MultiPartUtil {
             } else {
                 parts.add(block.getRelative(BlockFace.UP));
             }
+        } else if (block.getState().getData() instanceof Openable) {
+            parts.add(block);
         }
 
         return parts;

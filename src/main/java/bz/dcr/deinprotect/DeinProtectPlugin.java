@@ -61,7 +61,7 @@ public class DeinProtectPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if(mongoDB != null) {
+        if (mongoDB != null) {
             mongoDB.close();
         }
     }
