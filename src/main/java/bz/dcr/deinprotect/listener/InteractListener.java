@@ -9,7 +9,6 @@ import bz.dcr.deinprotect.protection.entity.ProtectionPermission;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,34 +17,19 @@ import org.primesoft.blockshub.api.Vector;
 
 public class InteractListener implements Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        // Event was cancelled
-        if (event.isCancelled()) {
-            return;
-        }
-
-        final Player player = event.getPlayer();
-
         // Not right-clicking block
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
 
+        final Player player = event.getPlayer();
         final Block block = event.getClickedBlock();
 
         // Block can not be protected
         if (!DeinProtectPlugin.getPlugin().getProtectionManager().isProtectable(block)) {
             return;
-        }
-
-        // Uncancel event if player has access to block
-        if (event.isCancelled()) {
-            final boolean hasAccess = DeinProtectPlugin.getPlugin().getBlocksHub()
-                    .getApi().hasAccess(player.getUniqueId(), block.getWorld().getUID(),
-                            new Vector(block.getX(), block.getY(), block.getZ()));
-
-            event.setCancelled(!hasAccess);
         }
 
         // Using key item
@@ -83,6 +67,11 @@ public class InteractListener implements Listener {
 
         // Block is not protected
         if (protection == null) {
+            final boolean hasAccess = DeinProtectPlugin.getPlugin().getBlocksHub()
+                    .getApi().hasAccess(player.getUniqueId(), block.getWorld().getUID(),
+                            new Vector(block.getX(), block.getY(), block.getZ()));
+
+            event.setCancelled(!hasAccess);
             return;
         }
 

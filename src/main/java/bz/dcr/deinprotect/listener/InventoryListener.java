@@ -46,6 +46,11 @@ public class InventoryListener implements Listener {
             return;
         }
 
+        // Inventory has no InventoryHolder
+        if (event.getClickedInventory().getHolder() == null) {
+            return;
+        }
+
         final Location location = event.getClickedInventory().getLocation();
 
         // Not a protectable inventory
