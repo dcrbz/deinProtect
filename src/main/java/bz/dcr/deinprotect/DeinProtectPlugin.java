@@ -126,6 +126,7 @@ public class DeinProtectPlugin extends JavaPlugin {
      */
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new InteractListener(), this);
+        getServer().getPluginManager().registerEvents(new DoorListener(this), this);
         getServer().getPluginManager().registerEvents(new KeyItemListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);

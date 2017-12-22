@@ -11,7 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.material.Openable;
 import org.primesoft.blockshub.api.Vector;
 
 public class InteractListener implements Listener {
@@ -50,21 +49,7 @@ public class InteractListener implements Listener {
             event.setCancelled(
                     !protection.hasPermission(player, ProtectionPermission.CONTAINER_OPEN)
             );
-        } else if (protection.getType() == ProtectionType.DOOR) {
-            // Check door permissions
-            if (block.getState().getData() instanceof Openable) {
-                final Openable door = (Openable) block.getState().getData();
-                boolean hasOpenPermission;
-
-                if (door.isOpen()) {
-                    hasOpenPermission = protection.hasPermission(player, ProtectionPermission.DOOR_CLOSE);
-                } else {
-                    hasOpenPermission = protection.hasPermission(player, ProtectionPermission.DOOR_OPEN);
-                }
-
-                event.setCancelled(!hasOpenPermission);
-            }
-        } else {
+        } else if (protection.getType() == ProtectionType.INTERACTABLE) {
             // Player is not allowed to interact
             event.setCancelled(!protection.hasPermission(player, ProtectionPermission.INTERACT));
         }
