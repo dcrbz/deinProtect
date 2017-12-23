@@ -6,7 +6,7 @@
 
     <groupId>bz.dcr</groupId>
     <artifactId>deinprotect</artifactId>
-    <version>5.0.3</version>
+    <version>5.0.4</version>
 
     <repositories>
         <!-- deinCraft Repository -->

@@ -8,15 +8,22 @@ import bz.dcr.deinprotect.protection.entity.ProtectionPermission;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.material.Openable;
 import org.primesoft.blockshub.api.Vector;
 
 public class InteractListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent event) {
+        // Event is cancelled
+        if (event.isCancelled()) {
+            return;
+        }
+
         // Not right-clicking block
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
@@ -46,9 +53,24 @@ public class InteractListener implements Listener {
 
         // Check protection permissions
         if (protection.getType() == ProtectionType.CONTAINER) {
-            event.setCancelled(
-                    !protection.hasPermission(player, ProtectionPermission.CONTAINER_OPEN)
-            );
+            event.setCancelled(!protection.hasPermission(player, ProtectionPermission.CONTAINER_OPEN));
+        } else if (protection.getType() == ProtectionType.DOOR) {
+            // Block is not openable
+            if (!(block.getState().getData() instanceof Openable)) {
+                return;
+            }
+
+            // Get door
+            final Openable door = (Openable) block.getState().getData();
+            boolean hasOpenPermission;
+
+            if (door.isOpen()) {
+                hasOpenPermission = protection.hasPermission(event.getPlayer(), ProtectionPermission.DOOR_CLOSE);
+            } else {
+                hasOpenPermission = protection.hasPermission(event.getPlayer(), ProtectionPermission.DOOR_OPEN);
+            }
+
+            event.setCancelled(!hasOpenPermission);
         } else if (protection.getType() == ProtectionType.INTERACTABLE) {
             // Player is not allowed to interact
             event.setCancelled(!protection.hasPermission(player, ProtectionPermission.INTERACT));

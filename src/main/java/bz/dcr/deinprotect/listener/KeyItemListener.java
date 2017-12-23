@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.primesoft.blockshub.api.Vector;
 
 public class KeyItemListener implements Listener {
 
@@ -29,33 +30,44 @@ public class KeyItemListener implements Listener {
             return;
         }
 
-        // Using key item
-        if (DeinProtectPlugin.getPlugin().getKeyItemProvider().isKeyItem(event.getItem())) {
-            event.setCancelled(true);
+        // Player is not using key item
+        if (!DeinProtectPlugin.getPlugin().getKeyItemProvider().isKeyItem(event.getItem())) {
+            return;
+        }
 
-            // Get protection of clicked block
-            Protection protection = DeinProtectPlugin.getPlugin().getProtectionManager()
-                    .getProtection(new BlockLocation(event.getClickedBlock()));
+        // Cancel event
+        event.setCancelled(true);
 
-            if (protection == null) {
-                // Create new protection
-                protection = DeinProtectPlugin.getPlugin().getProtectionManager().createProtection(
-                        player,
-                        new BlockLocation(block)
-                );
+        // Get protection
+        Protection protection = DeinProtectPlugin.getPlugin().getProtectionManager().getProtection(
+                new BlockLocation(block)
+        );
 
-                // Send message
-                player.sendMessage(
-                        DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.PROTECTION_CREATED, true)
-                );
-            } else {
-                if (protection.hasPermission(player, ProtectionPermission.MANAGE)) {
-                    DeinProtectPlugin.getPlugin().getGuiManager()
-                            .openProtectionGui(player, protection);
-                }
+        // Block is not protected
+        if (protection == null) {
+            // Check if player has access to block
+            final boolean hasAccess = DeinProtectPlugin.getPlugin().getBlocksHub()
+                    .getApi().hasAccess(player.getUniqueId(), block.getWorld().getUID(),
+                            new Vector(block.getX(), block.getY(), block.getZ()));
+
+            // Player does not have access to block
+            if (!hasAccess) {
+                return;
             }
 
-            return;
+            // Create new protection
+            DeinProtectPlugin.getPlugin().getProtectionManager().createProtection(
+                    player,
+                    new BlockLocation(block)
+            );
+
+            // Send message
+            player.sendMessage(
+                    DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.PROTECTION_CREATED, true)
+            );
+        } else if (protection.hasPermission(player, ProtectionPermission.MANAGE)) {
+            // Open management GUI
+            DeinProtectPlugin.getPlugin().getGuiManager().openProtectionGui(player, protection);
         }
     }
 
