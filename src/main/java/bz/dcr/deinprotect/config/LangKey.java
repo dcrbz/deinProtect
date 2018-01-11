@@ -14,11 +14,15 @@ public interface LangKey {
     String MEMBER_REMOVED = "Status.Member-Removed";
     String KEY_GIVEN = "Status.Key-Given";
 
+    String PROMPT_ADD_MEMBER = "Prompt.Add-Member";
+    String PROMPT_REMOVE_MEMBER = "Prompt.Remove-Member";
+
     String ERR_PLAYER_NOT_EXISTING = "Error.Player-Not-Existing";
     String ERR_PLAYER_IS_MEMBER = "Error.Player-Is-Member";
     String ERR_PLAYER_IS_NOT_MEMBER = "Error.Player-Is-Not-Member";
     String ERR_PLAYER_COMMAND = "Error.Player-Command";
     String ERR_NO_PERMISSION = "Error.No-Permission";
+    String ERR_INVALID_NAME = "Error.Invalid-Name";
 
     String GUI_MAIN_MENU_TITLE = "GUI.Main-Menu.Title";
     String GUI_MAIN_MENU_ADD_MEMBER = "GUI.Main-Menu.Add-Member";

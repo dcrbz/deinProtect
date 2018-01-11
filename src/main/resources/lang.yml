@@ -11,12 +11,17 @@ Status:
   Member-Removed: '&aDer Spieler wurde erfolgreich entfernt.'
   Key-Given: '&aDu hast einen Schlüssel erhalten.'
 
+Prompt:
+  Add-Member: '&6Bitte gib den Spieler, den du hinzufügen möchtest in den Chat ein:'
+  Remove-Member: '&6Bitte gib den Spieler, den du entfernen möchtest in den Chat ein:'
+
 Error:
   Player-Not-Existing: '&cDieser Spieler existiert nicht.'
   Player-Is-Member: '&cDieser Spieler ist bereits Mitglied.'
   Player-Is-Not-Member: '&cDieser Spieler ist kein Mitglied.'
   Player-Command: '&cDieser Befehl kann nur als Spieler ausgeführt werden.'
   No-Permission: '&cDu hast keine Berechtigung dafür.'
+  Invalid-Name: '&cUngültiger Name. Ein Name ist zwischen 3 und 16 Zeichen lang.'
 
 GUI:
   Main-Menu:

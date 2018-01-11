@@ -1,5 +1,7 @@
 package bz.dcr.deinprotect.gui.window;
 
+import bz.dcr.dccore.commons.prompt.AbstractPrompt;
+import bz.dcr.dccore.commons.prompt.StringPrompt;
 import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
 import bz.dcr.deinprotect.gui.window.permission.pub.PublicContainerPermissionWindow;
@@ -18,7 +20,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import xyz.upperlevel.spigot.gui.CustomGui;
 import xyz.upperlevel.spigot.gui.Gui;
 import xyz.upperlevel.spigot.gui.GuiManager;
-import xyz.upperlevel.spigot.gui.impl.anvil.AnvilInputGui;
 
 import java.util.UUID;
 
@@ -57,45 +58,59 @@ public class MainMenuWindow extends CustomGui {
 
         switch (event.getSlot()) {
             case SLOT_REMOVE_MEMBER: {
-                final Gui gui = new AnvilInputGui()
-                        .message(DeinProtectPlugin.getPlugin().getLangManager().getMessage(
-                                LangKey.GUI_REMOVE_MEMBER_MESSAGE, false)
-                        )
-                        .listener((player1, s) -> {
-                            final UUID playerId = DeinProtectPlugin.getPlugin().getDcCore().getIdentificationProvider()
-                                    .getUUID(s);
+                final StringPrompt prompt = new StringPrompt(player.getUniqueId(), 3, 16);
+                prompt.setAction(new AbstractPrompt.PromptCallback<StringPrompt>() {
+                    @Override
+                    public void onSuccess(StringPrompt prompt) {
+                        final UUID playerId = DeinProtectPlugin.getPlugin().getDcCore().getIdentificationProvider()
+                                .getUUID(prompt.getInput());
 
-                            // Player not found
-                            if (playerId == null) {
-                                player1.sendMessage(
-                                        DeinProtectPlugin.getPlugin().getLangManager()
-                                                .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
-                                );
-                                GuiManager.close(player1);
-                                return "";
-                            }
-
-                            // Player is not a member
-                            if (!protection.hasMember(playerId)) {
-                                player1.sendMessage(
-                                        DeinProtectPlugin.getPlugin().getLangManager()
-                                                .getMessage(LangKey.ERR_PLAYER_IS_NOT_MEMBER, true)
-                                );
-                                GuiManager.close(player1);
-                                return "";
-                            }
-
-                            GuiManager.close(player1);
-                            protection.removeMember(playerId);
-                            saveProtection();
-                            player1.sendMessage(
+                        // Player not found
+                        if (playerId == null) {
+                            player.sendMessage(
                                     DeinProtectPlugin.getPlugin().getLangManager()
-                                            .getMessage(LangKey.MEMBER_REMOVED, true)
+                                            .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
                             );
+                            return;
+                        }
 
-                            return "";
-                        });
-                GuiManager.open(player, gui);
+                        // Player is not a member
+                        if (!protection.hasMember(playerId)) {
+                            player.sendMessage(
+                                    DeinProtectPlugin.getPlugin().getLangManager()
+                                            .getMessage(LangKey.ERR_PLAYER_IS_NOT_MEMBER, true)
+                            );
+                            return;
+                        }
+
+                        // Remove member from protection
+                        protection.removeMember(playerId);
+
+                        // Save protection
+                        saveProtection();
+
+                        // Send message
+                        player.sendMessage(
+                                DeinProtectPlugin.getPlugin().getLangManager()
+                                        .getMessage(LangKey.MEMBER_REMOVED, true)
+                        );
+                    }
+
+                    @Override
+                    public void onFailure(StringPrompt abstractPrompt, String s) {
+                        // Send error message
+                        player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
+                                .getMessage(LangKey.ERR_INVALID_NAME, true));
+                    }
+                });
+
+                // Register prompt
+                DeinProtectPlugin.getPlugin().getDcCore().getPromptManager().registerPrompt(prompt);
+
+                // Send prompt message
+                player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
+                        .getMessage(LangKey.PROMPT_REMOVE_MEMBER, true));
+
                 break;
             }
             case SLOT_MEMBERS: {
@@ -103,47 +118,59 @@ public class MainMenuWindow extends CustomGui {
                 break;
             }
             case SLOT_ADD_MEMBER: {
-                final Gui gui = new AnvilInputGui()
-                        .message(DeinProtectPlugin.getPlugin().getLangManager().getMessage(
-                                LangKey.GUI_ADD_MEMBER_MESSAGE, false)
-                        )
-                        .listener((player1, s) -> {
-                            final UUID playerId = DeinProtectPlugin.getPlugin().getDcCore().getIdentificationProvider()
-                                    .getUUID(s);
+                final StringPrompt prompt = new StringPrompt(player.getUniqueId(), 3, 16);
+                prompt.setAction(new AbstractPrompt.PromptCallback<StringPrompt>() {
+                    @Override
+                    public void onSuccess(StringPrompt prompt) {
+                        final UUID playerId = DeinProtectPlugin.getPlugin().getDcCore().getIdentificationProvider()
+                                .getUUID(prompt.getInput());
 
-                            // Player not found
-                            if (playerId == null) {
-                                player1.sendMessage(
-                                        DeinProtectPlugin.getPlugin().getLangManager()
-                                                .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
-                                );
-                                GuiManager.close(player1);
-                                return "";
-                            }
-
-                            // Player is a member
-                            if (protection.hasMember(playerId)) {
-                                player1.sendMessage(
-                                        DeinProtectPlugin.getPlugin().getLangManager()
-                                                .getMessage(LangKey.ERR_PLAYER_IS_MEMBER, true)
-                                );
-                                GuiManager.close(player1);
-                                return "";
-                            }
-
-                            GuiManager.close(player1);
-                            protection.putMember(new ProtectionMember(playerId));
-                            saveProtection();
-                            player1.sendMessage(
+                        // Player not found
+                        if (playerId == null) {
+                            player.sendMessage(
                                     DeinProtectPlugin.getPlugin().getLangManager()
-                                            .getMessage(LangKey.MEMBER_ADDED, true)
+                                            .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
                             );
+                            return;
+                        }
 
-                            return "";
-                        });
+                        // Player is not a member
+                        if (!protection.hasMember(playerId)) {
+                            player.sendMessage(
+                                    DeinProtectPlugin.getPlugin().getLangManager()
+                                            .getMessage(LangKey.ERR_PLAYER_IS_NOT_MEMBER, true)
+                            );
+                            return;
+                        }
 
-                // Open GUI
-                GuiManager.open(player, gui);
+                        // Remove member from protection
+                        protection.putMember(new ProtectionMember(playerId));
+
+                        // Save protection
+                        saveProtection();
+
+                        // Send message
+                        player.sendMessage(
+                                DeinProtectPlugin.getPlugin().getLangManager()
+                                        .getMessage(LangKey.MEMBER_ADDED, true)
+                        );
+                    }
+
+                    @Override
+                    public void onFailure(StringPrompt abstractPrompt, String s) {
+                        // Send error message
+                        player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
+                                .getMessage(LangKey.ERR_INVALID_NAME, true));
+                    }
+                });
+
+                // Register prompt
+                DeinProtectPlugin.getPlugin().getDcCore().getPromptManager().registerPrompt(prompt);
+
+                // Send prompt message
+                player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
+                        .getMessage(LangKey.PROMPT_ADD_MEMBER, true));
+
                 break;
             }
             case SLOT_PUBLIC_PERMS: {
