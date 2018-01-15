@@ -19,7 +19,9 @@ public class InventoryListener implements Listener {
             InventoryAction.PLACE_ALL,
             InventoryAction.PLACE_ONE,
             InventoryAction.PLACE_SOME,
-            InventoryAction.SWAP_WITH_CURSOR
+            InventoryAction.SWAP_WITH_CURSOR,
+            InventoryAction.HOTBAR_MOVE_AND_READD,
+            InventoryAction.HOTBAR_SWAP
     };
 
     private static final InventoryAction[] takeActions = {
