@@ -134,15 +134,6 @@ public class MainMenuWindow extends CustomGui {
                             return;
                         }
 
-                        // Player is not a member
-                        if (!protection.hasMember(playerId)) {
-                            player.sendMessage(
-                                    DeinProtectPlugin.getPlugin().getLangManager()
-                                            .getMessage(LangKey.ERR_PLAYER_IS_NOT_MEMBER, true)
-                            );
-                            return;
-                        }
-
                         // Remove member from protection
                         protection.putMember(new ProtectionMember(playerId));
 
