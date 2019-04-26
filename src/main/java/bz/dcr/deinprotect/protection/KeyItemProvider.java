@@ -77,7 +77,7 @@ public class KeyItemProvider {
         ).getKeys(false);
 
         // Add ingredients
-        for(String key : configKeys) {
+        for (String key : configKeys) {
             recipe.setIngredient(
                     key.charAt(0),
                     Material.getMaterial(config.getString(DeinProtectConfigKey.KEY_ITEM_CRAFTING_INGREDIENTS + "." + key))
@@ -89,6 +89,7 @@ public class KeyItemProvider {
 
     /**
      * Checks if the given {@link ItemStack} is a key item
+     *
      * @param item The {@link ItemStack} to compare
      * @return Whether the given {@link ItemStack} is a key item or not
      */

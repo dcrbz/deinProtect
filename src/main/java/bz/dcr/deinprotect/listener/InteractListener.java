@@ -13,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.Openable;
-import org.primesoft.blockshub.api.Vector;
 
 public class InteractListener implements Listener {
 
@@ -44,8 +43,8 @@ public class InteractListener implements Listener {
         // Block is not protected
         if (protection == null) {
             final boolean hasAccess = DeinProtectPlugin.getPlugin().getBlocksHub()
-                    .getApi().hasAccess(player.getUniqueId(), block.getWorld().getUID(),
-                            new Vector(block.getX(), block.getY(), block.getZ()));
+                    .getApi().hasAccess(
+                            player.getUniqueId(), block.getWorld().getUID(), block.getX(), block.getY(), block.getZ());
 
             event.setCancelled(!hasAccess);
             return;

@@ -17,7 +17,8 @@ public class BlockLocation implements Serializable {
 
 
     // <editor-folding> Constructors
-    protected BlockLocation() {}
+    protected BlockLocation() {
+    }
 
     public BlockLocation(UUID worldId, int posX, int posY, int posZ) {
         this.worldId = worldId;
@@ -118,9 +119,9 @@ public class BlockLocation implements Serializable {
 
         return (
                 location.getWorldId().equals(getWorldId()) &&
-                location.getPosX() == getPosX() &&
-                location.getPosY() == getPosY() &&
-                location.getPosZ() == getPosZ()
+                        location.getPosX() == getPosX() &&
+                        location.getPosY() == getPosY() &&
+                        location.getPosZ() == getPosZ()
         );
     }
 

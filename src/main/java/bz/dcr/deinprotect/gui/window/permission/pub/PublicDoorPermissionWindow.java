@@ -58,7 +58,8 @@ public class PublicDoorPermissionWindow extends PublicPermissionWindow {
                 getProtection().togglePublicPermission(ProtectionPermission.BREAK);
                 break;
             }
-            default: return;
+            default:
+                return;
         }
 
         // Save protection

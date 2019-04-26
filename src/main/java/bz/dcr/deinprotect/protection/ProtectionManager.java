@@ -35,8 +35,9 @@ public class ProtectionManager {
 
     /**
      * Load a {@link ProtectionType} from the plugin configuration
+     *
      * @param typePath The path to the protection type list
-     * @param type The type the block types are related to
+     * @param type     The type the block types are related to
      */
     private void loadProtectionType(String typePath, ProtectionType type) {
         final FileConfiguration config = DeinProtectPlugin.getPlugin().getConfig();
@@ -58,6 +59,7 @@ public class ProtectionManager {
 
     /**
      * Save a single {@link Protection} to the database
+     *
      * @param protection The {@link Protection} to save
      */
     public void saveProtection(Protection protection) {
@@ -67,6 +69,7 @@ public class ProtectionManager {
 
     /**
      * Delete a single {@link Protection} from the database
+     *
      * @param protection The {@link Protection} to delete
      */
     public void deleteProtection(Protection protection) {
@@ -76,6 +79,7 @@ public class ProtectionManager {
 
     /**
      * Delete a single part of a {@link Protection}
+     *
      * @param location The {@link BlockLocation} of the protection part
      */
     public void deleteProtectionPart(BlockLocation location) {
@@ -100,7 +104,8 @@ public class ProtectionManager {
 
     /**
      * Create a new {@link Protection}
-     * @param owner The owner of the {@link Protection}
+     *
+     * @param owner    The owner of the {@link Protection}
      * @param location The {@link BlockLocation} of the protection
      * @return The newly created {@link Protection}
      */
@@ -130,6 +135,7 @@ public class ProtectionManager {
 
     /**
      * Get a {@link Protection} by it's {@link BlockLocation}
+     *
      * @param location The {@link BlockLocation} of the {@link Protection}
      * @return The {@link Protection} at the specified {@link BlockLocation}
      */
@@ -143,6 +149,7 @@ public class ProtectionManager {
 
     /**
      * Check whether a {@link Block} is protectable or not
+     *
      * @param block The {@link Block} to check
      * @return Whether the specified {@link Block} is protectable or not
      */

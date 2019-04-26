@@ -4,7 +4,7 @@ import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.block.BlockLocation;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import org.bukkit.Bukkit;
-import org.primesoft.blockshub.api.BlockData;
+import org.primesoft.blockshub.api.IBlockData;
 import org.primesoft.blockshub.api.IBlockLogger;
 import org.primesoft.blockshub.api.IPlayer;
 import org.primesoft.blockshub.api.IWorld;
@@ -22,13 +22,13 @@ public class DeinProtectBlocksHubLogger implements IBlockLogger {
 
 
     @Override
-    public void logBlock(org.primesoft.blockshub.api.Vector location, IPlayer player, IWorld world, BlockData oldBlock, BlockData newBlock) {
+    public void logBlock(IPlayer player, IWorld world, double x, double y, double z, IBlockData iBlockData, IBlockData iBlockData1) {
         // Get BlockLocation
         final BlockLocation blockLocation = new BlockLocation(
                 world.getUuid(),
-                (int) location.getX(),
-                (int) location.getY(),
-                (int) location.getZ()
+                (int) x,
+                (int) y,
+                (int) z
         );
 
         // Block is not protectable
@@ -49,7 +49,7 @@ public class DeinProtectBlocksHubLogger implements IBlockLogger {
             plugin.getProtectionManager().deleteProtection(protection);
 
             // Log event
-            plugin.getLogger().warning("Protection at " + location.toString() + " has been deleted (Reason: WorldEdit)");
+            plugin.getLogger().warning("Protection at " + blockLocation.toString() + " has been deleted (Reason: Removed by 3rd party plugin)");
         });
     }
 
@@ -67,5 +67,4 @@ public class DeinProtectBlocksHubLogger implements IBlockLogger {
     public String getName() {
         return LOGGER_NAME;
     }
-
 }

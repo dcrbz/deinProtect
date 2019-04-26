@@ -12,6 +12,11 @@ import java.util.List;
 
 public class MultiPartUtil {
 
+    /**
+     * Get all parts remaining of a block
+     * @param block The block to search all remaining parts for
+     * @return List of all remaining parts of the given block
+     */
     public static List<Block> getParts(Block block) {
         List<Block> parts = new ArrayList<>();
 
@@ -26,6 +31,11 @@ public class MultiPartUtil {
         return parts;
     }
 
+    /**
+     * Get the second part of a door
+     * @param block The first part of the door. This can be the upper or the lower part.
+     * @return List containing the second part of the given first part of the door
+     */
     public static List<Block> getDoorParts(Block block) {
         List<Block> parts = new ArrayList<>();
 
@@ -48,6 +58,11 @@ public class MultiPartUtil {
         return parts;
     }
 
+    /**
+     * Get the second part of a chest
+     * @param block The first part of the chest. I doesn't matter which part of the chest this is.
+     * @return List containing the second part of the given first part of the chest
+     */
     public static List<Block> getContainerParts(Block block) {
         List<Block> parts = new ArrayList<>();
 

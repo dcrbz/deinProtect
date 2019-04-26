@@ -52,7 +52,8 @@ public class PublicInteractablePermissionWindow extends PublicPermissionWindow {
                 getProtection().togglePublicPermission(ProtectionPermission.BREAK);
                 break;
             }
-            default: return;
+            default:
+                return;
         }
 
         // Save protection

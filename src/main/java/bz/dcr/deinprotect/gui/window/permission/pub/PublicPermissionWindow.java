@@ -41,11 +41,11 @@ public abstract class PublicPermissionWindow extends CustomGui {
     }
 
     private ItemStack buildOnItem() {
-        return new ItemStack(Material.CONCRETE,1, (short) 5);
+        return new ItemStack(Material.LIME_CONCRETE);
     }
 
     private ItemStack buildOffItem() {
-        return new ItemStack(Material.CONCRETE,1, (short) 14);
+        return new ItemStack(Material.RED_CONCRETE);
     }
 
 

@@ -194,7 +194,7 @@ public class MainMenuWindow extends CustomGui {
 
 
     private ItemStack buildRemoveMemberItem() {
-        ItemStack itemStack = new ItemStack(Material.STAINED_GLASS, 1, (short) 14);
+        ItemStack itemStack = new ItemStack(Material.RED_STAINED_GLASS_PANE);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         itemMeta.setDisplayName(
@@ -222,7 +222,7 @@ public class MainMenuWindow extends CustomGui {
     }
 
     private ItemStack buildAddMemberItem() {
-        ItemStack itemStack = new ItemStack(Material.STAINED_GLASS, 1, (short) 13);
+        ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         itemMeta.setDisplayName(

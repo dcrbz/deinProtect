@@ -42,9 +42,11 @@ public class LangManager {
     }
 
 
-    /**LangKey
+    /**
+     * LangKey
      * Returns a color formatted message with or without the prefix
-     * @param key The key of the message
+     *
+     * @param key    The key of the message
      * @param prefix Whether the prefix should be added or not
      * @return Color formatted message with or without the prefix
      */
@@ -54,8 +56,9 @@ public class LangManager {
 
     /**
      * Returns a color formatted with injected placeholders and with or without the prefix
-     * @param key The key of the message
-     * @param prefix Whether the prefix should be added or not
+     *
+     * @param key          The key of the message
+     * @param prefix       Whether the prefix should be added or not
      * @param placeholders A Map with key and value of the type String containing all placeholders
      * @return Color formatted message with injected placeholders and with or without the prefix
      */
@@ -73,7 +76,8 @@ public class LangManager {
 
     /**
      * Returns a color formatted with injected placeholders and with or without the prefix from a list
-     * @param key The key of the message list
+     *
+     * @param key    The key of the message list
      * @param prefix Whether the prefix should be added or not
      * @return Color formatted message with injected placeholders and with or without the prefix
      */
@@ -83,8 +87,9 @@ public class LangManager {
 
     /**
      * Returns a color formatted with injected placeholders and with or without the prefix from a list
-     * @param key The key of the message list
-     * @param prefix Whether the prefix should be added or not
+     *
+     * @param key          The key of the message list
+     * @param prefix       Whether the prefix should be added or not
      * @param placeholders A Map with key and value of the type String containing all placeholders
      * @return Color formatted message with injected placeholders and with or without the prefix
      */
@@ -104,7 +109,7 @@ public class LangManager {
         String formattedMessage = message;
 
         // Inject placeholders
-        for(Map.Entry<String, String> entry : placeholders.entrySet()) {
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
             formattedMessage = formattedMessage.replace("{{" + entry.getKey() + "}}", entry.getValue());
         }
 
@@ -123,6 +128,7 @@ public class LangManager {
 
     /**
      * Returns the raw message without color formatting and placeholder injection
+     *
      * @param key The key of the message
      * @return Raw message without color formatting and placeholder injection
      */
@@ -132,6 +138,7 @@ public class LangManager {
 
     /**
      * Returns the raw message from a list without color formatting and placeholder injection
+     *
      * @param key The key of the message list
      * @return Raw message from the list without color formatting and placeholder injection
      */
@@ -142,6 +149,7 @@ public class LangManager {
 
     /**
      * Formats a {@link Date} using the configured format
+     *
      * @param date The date to format
      * @return The formatted String representation of the {@link Date}
      */
@@ -152,6 +160,7 @@ public class LangManager {
 
     /**
      * Formats a number using the configured format
+     *
      * @param number The number to format
      * @return The formatted String representation of the number
      */
@@ -161,6 +170,7 @@ public class LangManager {
 
     /**
      * Formats a number using the configured format
+     *
      * @param number The number to format
      * @return The formatted String representation of the number
      */
@@ -170,6 +180,7 @@ public class LangManager {
 
     /**
      * Formats a number using the configured format
+     *
      * @param number The number to format
      * @return The formatted String representation of the number
      */
@@ -179,6 +190,7 @@ public class LangManager {
 
     /**
      * Formats a number using the configured format
+     *
      * @param number The number to format
      * @return The formatted String representation of the number
      */
@@ -188,6 +200,7 @@ public class LangManager {
 
     /**
      * Formats a number using the configured format
+     *
      * @param number The number to format
      * @return The formatted String representation of the number
      */

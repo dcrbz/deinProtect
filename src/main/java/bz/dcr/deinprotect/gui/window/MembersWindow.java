@@ -11,7 +11,6 @@ import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionMember;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -105,10 +104,12 @@ public class MembersWindow extends CustomGui {
 
 
     private ItemStack buildMemberItem(String playerName) {
-        ItemStack itemStack = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+        ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        itemMeta.setDisplayName("§e" + playerName);
+        if (itemMeta != null) {
+            itemMeta.setDisplayName("§e" + playerName);
+        }
 
         itemStack.setItemMeta(itemMeta);
 

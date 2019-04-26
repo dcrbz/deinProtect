@@ -67,7 +67,8 @@ public class ContainerPermissionWindow extends PermissionWindow {
                 getMember().togglePermission(ProtectionPermission.BREAK);
                 break;
             }
-            default: return;
+            default:
+                return;
         }
 
         // Update member

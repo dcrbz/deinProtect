@@ -11,7 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.primesoft.blockshub.api.Vector;
 
 public class KeyItemListener implements Listener {
 
@@ -47,8 +46,8 @@ public class KeyItemListener implements Listener {
         if (protection == null) {
             // Check if player has access to block
             final boolean hasAccess = DeinProtectPlugin.getPlugin().getBlocksHub()
-                    .getApi().hasAccess(player.getUniqueId(), block.getWorld().getUID(),
-                            new Vector(block.getX(), block.getY(), block.getZ()));
+                    .getApi().hasAccess(
+                            player.getUniqueId(),block.getWorld().getUID(), block.getX(), block.getY(), block.getZ());
 
             // Player does not have access to block
             if (!hasAccess) {
