@@ -1,0 +1,53 @@
+Prefix: '&6&l&odeinProtect &8\ &r'
+Date-Format: 'dd.MM.yyyy HH:mm:ss'
+Number-Format: '#,##0.00'
+Number-Format-Decimal-Separator: ','
+Number-Format-Grouping-Separator: '.'
+
+Status:
+  Protection-Created: '&aDer Block wurde erfolgreich gesichert.'
+  Protection-Deleted: '&cDie Sicherung wurde erfolgreich entfernt.'
+  Member-Added: '&aDer Spieler wurde erfolgreich hinzugefügt.'
+  Member-Removed: '&aDer Spieler wurde erfolgreich entfernt.'
+  Key-Given: '&aDu hast einen Schlüssel erhalten.'
+
+Prompt:
+  Add-Member: '&6Bitte gib den Spieler, den du hinzufügen möchtest in den Chat ein:'
+  Remove-Member: '&6Bitte gib den Spieler, den du entfernen möchtest in den Chat ein:'
+
+Error:
+  Player-Not-Existing: '&cDieser Spieler existiert nicht.'
+  Player-Is-Member: '&cDieser Spieler ist bereits Mitglied.'
+  Player-Is-Not-Member: '&cDieser Spieler ist kein Mitglied.'
+  Player-Command: '&cDieser Befehl kann nur als Spieler ausgeführt werden.'
+  No-Permission: '&cDu hast keine Berechtigung dafür.'
+  Invalid-Name: '&cUngültiger Name. Ein Name ist zwischen 3 und 16 Zeichen lang.'
+
+GUI:
+  Main-Menu:
+    Title: 'Sicherung verwalten'
+    Add-Member: '&aMitglied hinzufügen'
+    Members: '&6Mitglieder'
+    Remove-Member: '&cMitglied entfernen'
+    Public-Permissions: '&6Öffentliche Berechtigungen'
+    Delete-Protection: '&cSicherung entfernen'
+  Members:
+    Title: 'Mitglieder verwalten'
+  Add-Member:
+    Message: 'Name des Spielers'
+  Remove-Member:
+    Message: 'Name des Spielers'
+  Permissions:
+    Title: 'Rechteverwaltung'
+
+Protection-Permission:
+  Interact: '&eInteragieren'
+  Manage: '&eVerwalten'
+  Break: '&eZerstören'
+  Container-Open: '&eÖffnen'
+  Container-Put-Item: '&eItems hinzufügen'
+  Container-Take-Item: '&eItems nehmen'
+  Door-Open: '&eTür öffnen'
+  Door-Close: '&eTür schließen'
+  Prefix-On: '&2[&a&lAN&2] &r'
+  Prefix-Off: '&4[&c&lAUS&4] &r'

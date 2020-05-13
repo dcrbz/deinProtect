@@ -2,7 +2,7 @@ name: deinProtect
 version: ${project.version}
 authors: [leNic]
 main: bz.dcr.deinprotect.DeinProtectPlugin
-depend: [dcCore, SlimyGuis, BlocksHub]
+depend: [BlocksHub]
 api-version: 1.15
 
 commands:

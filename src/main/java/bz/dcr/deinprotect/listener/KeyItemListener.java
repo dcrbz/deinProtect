@@ -3,6 +3,7 @@ package bz.dcr.deinprotect.listener;
 import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.block.BlockLocation;
 import bz.dcr.deinprotect.config.LangKey;
+import bz.dcr.deinprotect.gui.window.MainMenuWindow;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionPermission;
 import org.bukkit.block.Block;
@@ -66,7 +67,7 @@ public class KeyItemListener implements Listener {
             );
         } else if (protection.hasPermission(player, ProtectionPermission.MANAGE)) {
             // Open management GUI
-            DeinProtectPlugin.getPlugin().getGuiManager().openProtectionGui(player, protection);
+            MainMenuWindow.getInventory(protection).open(player);
         }
     }
 

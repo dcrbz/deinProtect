@@ -1,53 +1,53 @@
-Prefix: '&6&l&odeinProtect &8\ &r'
-Date-Format: 'dd.MM.yyyy HH:mm:ss'
+Prefix: '&6[deinProtect] &r'
+Date-Format: 'yyyy-mm-dd hh:mm aaa' # See https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
 Number-Format: '#,##0.00'
-Number-Format-Decimal-Separator: ','
-Number-Format-Grouping-Separator: '.'
+Number-Format-Decimal-Separator: '.'
+Number-Format-Grouping-Separator: ','
 
 Status:
-  Protection-Created: '&aDer Block wurde erfolgreich gesichert.'
-  Protection-Deleted: '&cDie Sicherung wurde erfolgreich entfernt.'
-  Member-Added: '&aDer Spieler wurde erfolgreich hinzugefügt.'
-  Member-Removed: '&aDer Spieler wurde erfolgreich entfernt.'
-  Key-Given: '&aDu hast einen Schlüssel erhalten.'
+  Protection-Created: '&aThe block has been locked.'
+  Protection-Deleted: '&cThe block has been unlocked.'
+  Member-Added: '&aThe player has been added.'
+  Member-Removed: '&aThe player has been removed.'
+  Key-Given: '&aYou received a key.'
 
 Prompt:
-  Add-Member: '&6Bitte gib den Spieler, den du hinzufügen möchtest in den Chat ein:'
-  Remove-Member: '&6Bitte gib den Spieler, den du entfernen möchtest in den Chat ein:'
+  Add-Member: '&6Please enter the name of the player you want to add:'
+  Remove-Member: '&6Please enter the name of the player you want to remove:'
 
 Error:
-  Player-Not-Existing: '&cDieser Spieler existiert nicht.'
-  Player-Is-Member: '&cDieser Spieler ist bereits Mitglied.'
-  Player-Is-Not-Member: '&cDieser Spieler ist kein Mitglied.'
-  Player-Command: '&cDieser Befehl kann nur als Spieler ausgeführt werden.'
-  No-Permission: '&cDu hast keine Berechtigung dafür.'
-  Invalid-Name: '&cUngültiger Name. Ein Name ist zwischen 3 und 16 Zeichen lang.'
+  Player-Not-Existing: '&cThis player does not exist.'
+  Player-Is-Member: '&cThe player has already been added.'
+  Player-Is-Not-Member: '&cThis player has not been added.'
+  Player-Command: '&cThis command can only been run as a player.'
+  No-Permission: "&cYou don't have permission for that."
+  Invalid-Name: '&cInvalid name. A valid name is 3 to 16 characters long.'
 
 GUI:
   Main-Menu:
-    Title: 'Sicherung verwalten'
-    Add-Member: '&aMitglied hinzufügen'
-    Members: '&6Mitglieder'
-    Remove-Member: '&cMitglied entfernen'
-    Public-Permissions: '&6Öffentliche Berechtigungen'
-    Delete-Protection: '&cSicherung entfernen'
+    Title: 'Manage'
+    Add-Member: '&aAdd member'
+    Members: '&6Members'
+    Remove-Member: '&cRemove member'
+    Public-Permissions: '&6Public permissions'
+    Delete-Protection: '&cUnlock'
   Members:
-    Title: 'Mitglieder verwalten'
+    Title: 'Manage members'
   Add-Member:
-    Message: 'Name des Spielers'
+    Message: 'Player name'
   Remove-Member:
-    Message: 'Name des Spielers'
+    Message: 'Player name'
   Permissions:
-    Title: 'Rechteverwaltung'
+    Title: 'Manage permissions'
 
 Protection-Permission:
-  Interact: '&eInteragieren'
-  Manage: '&eVerwalten'
-  Break: '&eZerstören'
-  Container-Open: '&eÖffnen'
-  Container-Put-Item: '&eItems hinzufügen'
-  Container-Take-Item: '&eItems nehmen'
-  Door-Open: '&eTür öffnen'
-  Door-Close: '&eTür schließen'
-  Prefix-On: '&2[&a&lAN&2] &r'
-  Prefix-Off: '&4[&c&lAUS&4] &r'
+  Interact: '&eInteract'
+  Manage: '&eManage'
+  Break: '&eDestroy'
+  Container-Open: '&eOpen'
+  Container-Put-Item: '&eAdd items'
+  Container-Take-Item: '&eTake items'
+  Door-Open: '&eOpen door'
+  Door-Close: '&eClose door'
+  Prefix-On: '&2[&a&lON&2] &r'
+  Prefix-Off: '&4[&c&lOFF&4] &r'

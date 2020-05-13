@@ -1,199 +1,43 @@
 package bz.dcr.deinprotect.gui.window;
 
-import bz.dcr.dccore.commons.prompt.AbstractPrompt;
-import bz.dcr.dccore.commons.prompt.StringPrompt;
 import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
 import bz.dcr.deinprotect.gui.window.permission.pub.PublicContainerPermissionWindow;
 import bz.dcr.deinprotect.gui.window.permission.pub.PublicDoorPermissionWindow;
 import bz.dcr.deinprotect.gui.window.permission.pub.PublicInteractablePermissionWindow;
-import bz.dcr.deinprotect.gui.window.permission.pub.PublicPermissionWindow;
 import bz.dcr.deinprotect.protection.ProtectionType;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionMember;
+import bz.dcr.deinprotect.util.prompt.AbstractPrompt;
+import bz.dcr.deinprotect.util.prompt.StringPrompt;
+import fr.minuskube.inv.ClickableItem;
+import fr.minuskube.inv.SmartInventory;
+import fr.minuskube.inv.content.InventoryContents;
+import fr.minuskube.inv.content.InventoryProvider;
+import fr.minuskube.inv.content.SlotPos;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import xyz.upperlevel.spigot.gui.CustomGui;
-import xyz.upperlevel.spigot.gui.Gui;
-import xyz.upperlevel.spigot.gui.GuiManager;
 
 import java.util.UUID;
 
-public class MainMenuWindow extends CustomGui {
+public class MainMenuWindow implements InventoryProvider {
 
-    private static final int SLOT_REMOVE_MEMBER = 2;
-    private static final int SLOT_MEMBERS = 4;
-    private static final int SLOT_ADD_MEMBER = 6;
-    private static final int SLOT_PUBLIC_PERMS = 13;
-    private static final int SLOT_DELETE = 26;
+    private static final SlotPos SLOT_MEMBERS = SlotPos.of(1, 1);
+    private static final SlotPos SLOT_ADD_MEMBER = SlotPos.of(1, 3);
+    private static final SlotPos SLOT_REMOVE_MEMBER = SlotPos.of(1, 5);
+    private static final SlotPos SLOT_PUBLIC_PERMS = SlotPos.of(1, 7);
+    private static final SlotPos SLOT_DELETE = SlotPos.of(2, 8);
 
     private Protection protection;
 
-
     public MainMenuWindow(Protection protection) {
-        super(
-                27,
-                DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.GUI_MAIN_MENU_TITLE, false)
-        );
-
         this.protection = protection;
-
-        setItem(SLOT_REMOVE_MEMBER, buildRemoveMemberItem());
-        setItem(SLOT_MEMBERS, buildMembersItem());
-        setItem(SLOT_ADD_MEMBER, buildAddMemberItem());
-        setItem(SLOT_PUBLIC_PERMS, buildPublicPermsItem());
-        setItem(SLOT_DELETE, buildDeleteItem());
     }
 
-
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-
-        final Player player = (Player) event.getWhoClicked();
-
-        switch (event.getSlot()) {
-            case SLOT_REMOVE_MEMBER: {
-                final StringPrompt prompt = new StringPrompt(player.getUniqueId(), 3, 16);
-                prompt.setAction(new AbstractPrompt.PromptCallback<StringPrompt>() {
-                    @Override
-                    public void onSuccess(StringPrompt prompt) {
-                        final UUID playerId = DeinProtectPlugin.getPlugin().getDcCore().getIdentificationProvider()
-                                .getUUID(prompt.getInput());
-
-                        // Player not found
-                        if (playerId == null) {
-                            player.sendMessage(
-                                    DeinProtectPlugin.getPlugin().getLangManager()
-                                            .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
-                            );
-                            return;
-                        }
-
-                        // Player is not a member
-                        if (!protection.hasMember(playerId)) {
-                            player.sendMessage(
-                                    DeinProtectPlugin.getPlugin().getLangManager()
-                                            .getMessage(LangKey.ERR_PLAYER_IS_NOT_MEMBER, true)
-                            );
-                            return;
-                        }
-
-                        // Remove member from protection
-                        protection.removeMember(playerId);
-
-                        // Save protection
-                        saveProtection();
-
-                        // Send message
-                        player.sendMessage(
-                                DeinProtectPlugin.getPlugin().getLangManager()
-                                        .getMessage(LangKey.MEMBER_REMOVED, true)
-                        );
-                    }
-
-                    @Override
-                    public void onFailure(StringPrompt abstractPrompt, String s) {
-                        // Send error message
-                        player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
-                                .getMessage(LangKey.ERR_INVALID_NAME, true));
-                    }
-                });
-
-                // Register prompt
-                DeinProtectPlugin.getPlugin().getDcCore().getPromptManager().registerPrompt(prompt);
-
-                // Send prompt message
-                player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
-                        .getMessage(LangKey.PROMPT_REMOVE_MEMBER, true));
-
-                break;
-            }
-            case SLOT_MEMBERS: {
-                Gui membersGui = new MembersWindow(protection, player);
-                break;
-            }
-            case SLOT_ADD_MEMBER: {
-                final StringPrompt prompt = new StringPrompt(player.getUniqueId(), 3, 16);
-                prompt.setAction(new AbstractPrompt.PromptCallback<StringPrompt>() {
-                    @Override
-                    public void onSuccess(StringPrompt prompt) {
-                        final UUID playerId = DeinProtectPlugin.getPlugin().getDcCore().getIdentificationProvider()
-                                .getUUID(prompt.getInput());
-
-                        // Player not found
-                        if (playerId == null) {
-                            player.sendMessage(
-                                    DeinProtectPlugin.getPlugin().getLangManager()
-                                            .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
-                            );
-                            return;
-                        }
-
-                        // Remove member from protection
-                        protection.putMember(new ProtectionMember(playerId));
-
-                        // Save protection
-                        saveProtection();
-
-                        // Send message
-                        player.sendMessage(
-                                DeinProtectPlugin.getPlugin().getLangManager()
-                                        .getMessage(LangKey.MEMBER_ADDED, true)
-                        );
-                    }
-
-                    @Override
-                    public void onFailure(StringPrompt abstractPrompt, String s) {
-                        // Send error message
-                        player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
-                                .getMessage(LangKey.ERR_INVALID_NAME, true));
-                    }
-                });
-
-                // Register prompt
-                DeinProtectPlugin.getPlugin().getDcCore().getPromptManager().registerPrompt(prompt);
-
-                // Send prompt message
-                player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
-                        .getMessage(LangKey.PROMPT_ADD_MEMBER, true));
-
-                break;
-            }
-            case SLOT_PUBLIC_PERMS: {
-                PublicPermissionWindow permissionWindow;
-
-                // Create Permission GUI
-                if (protection.getType() == ProtectionType.CONTAINER) {
-                    permissionWindow = new PublicContainerPermissionWindow(protection);
-                } else if (protection.getType() == ProtectionType.DOOR) {
-                    permissionWindow = new PublicDoorPermissionWindow(protection);
-                } else {
-                    permissionWindow = new PublicInteractablePermissionWindow(protection);
-                }
-
-                // Open GUI
-                GuiManager.open(player, permissionWindow);
-                break;
-            }
-            case SLOT_DELETE: {
-                DeinProtectPlugin.getPlugin().getProtectionManager().deleteProtection(protection);
-                GuiManager.close(player);
-                player.sendMessage(
-                        DeinProtectPlugin.getPlugin().getLangManager()
-                                .getMessage(LangKey.PROTECTION_DELETED, true)
-                );
-                break;
-            }
-        }
-    }
-
-
-    private ItemStack buildRemoveMemberItem() {
+    private ClickableItem buildRemoveMemberItem() {
         ItemStack itemStack = new ItemStack(Material.RED_STAINED_GLASS_PANE);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -204,10 +48,70 @@ public class MainMenuWindow extends CustomGui {
 
         itemStack.setItemMeta(itemMeta);
 
-        return itemStack;
+        return ClickableItem.of(itemStack, (event) -> {
+            event.setCancelled(true);
+
+            final Player player = (Player) event.getWhoClicked();
+
+            final StringPrompt prompt = new StringPrompt(player.getUniqueId(), 3, 16);
+            prompt.setAction(new AbstractPrompt.PromptCallback<StringPrompt>() {
+                @Override
+                public void onSuccess(StringPrompt prompt) {
+                    final UUID playerId = DeinProtectPlugin.getPlugin().getIdentityProvider()
+                            .getUUID(prompt.getInput());
+
+                    // Player not found
+                    if (playerId == null) {
+                        player.sendMessage(
+                                DeinProtectPlugin.getPlugin().getLangManager()
+                                        .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
+                        );
+                        return;
+                    }
+
+                    // Player is not a member
+                    if (!protection.hasMember(playerId)) {
+                        player.sendMessage(
+                                DeinProtectPlugin.getPlugin().getLangManager()
+                                        .getMessage(LangKey.ERR_PLAYER_IS_NOT_MEMBER, true)
+                        );
+                        return;
+                    }
+
+                    // Remove member from protection
+                    protection.removeMember(playerId);
+
+                    // Save protection
+                    saveProtection();
+
+                    // Send message
+                    player.sendMessage(
+                            DeinProtectPlugin.getPlugin().getLangManager()
+                                    .getMessage(LangKey.MEMBER_REMOVED, true)
+                    );
+                }
+
+                @Override
+                public void onFailure(StringPrompt abstractPrompt, String s) {
+                    // Send error message
+                    player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
+                            .getMessage(LangKey.ERR_INVALID_NAME, true));
+                }
+            });
+
+            // Register prompt
+            DeinProtectPlugin.getPlugin().getPromptManager().registerPrompt(prompt);
+
+            // Close the inventory
+            player.closeInventory();
+
+            // Send prompt message
+            player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
+                    .getMessage(LangKey.PROMPT_REMOVE_MEMBER, true));
+        });
     }
 
-    private ItemStack buildMembersItem() {
+    private ClickableItem buildMembersItem() {
         ItemStack itemStack = new ItemStack(Material.BOOKSHELF);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -218,10 +122,14 @@ public class MainMenuWindow extends CustomGui {
 
         itemStack.setItemMeta(itemMeta);
 
-        return itemStack;
+        return ClickableItem.of(itemStack, (event) -> {
+            DeinProtectPlugin.getPlugin().getLogger().info("Clicked members item");
+            event.setCancelled(true);
+            MembersWindow.getInventory(protection).open((Player) event.getWhoClicked());
+        });
     }
 
-    private ItemStack buildAddMemberItem() {
+    private ClickableItem buildAddMemberItem() {
         ItemStack itemStack = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -232,10 +140,61 @@ public class MainMenuWindow extends CustomGui {
 
         itemStack.setItemMeta(itemMeta);
 
-        return itemStack;
+        return ClickableItem.of(itemStack, (event) -> {
+            event.setCancelled(true);
+
+            final Player player = (Player) event.getWhoClicked();
+
+            final StringPrompt prompt = new StringPrompt(player.getUniqueId(), 3, 16);
+            prompt.setAction(new AbstractPrompt.PromptCallback<StringPrompt>() {
+                @Override
+                public void onSuccess(StringPrompt prompt) {
+                    final UUID playerId = DeinProtectPlugin.getPlugin().getIdentityProvider()
+                            .getUUID(prompt.getInput());
+
+                    // Player not found
+                    if (playerId == null) {
+                        player.sendMessage(
+                                DeinProtectPlugin.getPlugin().getLangManager()
+                                        .getMessage(LangKey.ERR_PLAYER_NOT_EXISTING, true)
+                        );
+                        return;
+                    }
+
+                    // Remove member from protection
+                    protection.putMember(new ProtectionMember(playerId));
+
+                    // Save protection
+                    saveProtection();
+
+                    // Send message
+                    player.sendMessage(
+                            DeinProtectPlugin.getPlugin().getLangManager()
+                                    .getMessage(LangKey.MEMBER_ADDED, true)
+                    );
+                }
+
+                @Override
+                public void onFailure(StringPrompt abstractPrompt, String s) {
+                    // Send error message
+                    player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
+                            .getMessage(LangKey.ERR_INVALID_NAME, true));
+                }
+            });
+
+            // Register prompt
+            DeinProtectPlugin.getPlugin().getPromptManager().registerPrompt(prompt);
+
+            // Close the inventory
+            player.closeInventory();
+
+            // Send prompt message
+            player.sendMessage(DeinProtectPlugin.getPlugin().getLangManager()
+                    .getMessage(LangKey.PROMPT_ADD_MEMBER, true));
+        });
     }
 
-    private ItemStack buildPublicPermsItem() {
+    private ClickableItem buildPublicPermsItem() {
         ItemStack itemStack = new ItemStack(Material.GLASS);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -246,10 +205,23 @@ public class MainMenuWindow extends CustomGui {
 
         itemStack.setItemMeta(itemMeta);
 
-        return itemStack;
+        return ClickableItem.of(itemStack, (event) -> {
+            event.setCancelled(true);
+
+            final Player player = (Player) event.getWhoClicked();
+
+            // Create Permission GUI
+            if (protection.getType() == ProtectionType.CONTAINER) {
+                PublicContainerPermissionWindow.getInventory(protection).open(player);
+            } else if (protection.getType() == ProtectionType.DOOR) {
+                PublicDoorPermissionWindow.getInventory(protection).open(player);
+            } else {
+                PublicInteractablePermissionWindow.getInventory(protection).open(player);
+            }
+        });
     }
 
-    private ItemStack buildDeleteItem() {
+    private ClickableItem buildDeleteItem() {
         ItemStack itemStack = new ItemStack(Material.BARRIER);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -260,7 +232,18 @@ public class MainMenuWindow extends CustomGui {
 
         itemStack.setItemMeta(itemMeta);
 
-        return itemStack;
+        return ClickableItem.of(itemStack, (event) -> {
+            event.setCancelled(true);
+
+            final Player player = (Player) event.getWhoClicked();
+
+            DeinProtectPlugin.getPlugin().getProtectionManager().deleteProtection(protection);
+            player.closeInventory();
+            player.sendMessage(
+                    DeinProtectPlugin.getPlugin().getLangManager()
+                            .getMessage(LangKey.PROTECTION_DELETED, true)
+            );
+        });
     }
 
 
@@ -268,6 +251,30 @@ public class MainMenuWindow extends CustomGui {
         Bukkit.getScheduler().runTaskAsynchronously(DeinProtectPlugin.getPlugin(), () -> {
             DeinProtectPlugin.getPlugin().getProtectionManager().saveProtection(protection);
         });
+    }
+
+    @Override
+    public void init(Player player, InventoryContents inventoryContents) {
+        inventoryContents.set(SLOT_REMOVE_MEMBER, buildRemoveMemberItem());
+        inventoryContents.set(SLOT_MEMBERS, buildMembersItem());
+        inventoryContents.set(SLOT_ADD_MEMBER, buildAddMemberItem());
+        inventoryContents.set(SLOT_PUBLIC_PERMS, buildPublicPermsItem());
+        inventoryContents.set(SLOT_DELETE, buildDeleteItem());
+    }
+
+    @Override
+    public void update(Player player, InventoryContents inventoryContents) {
+
+    }
+
+    public static SmartInventory getInventory(Protection protection) {
+        return SmartInventory.builder()
+                .id("mainMenuWindow")
+                .provider(new MainMenuWindow(protection))
+                .size(3, 9)
+                .title(DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.GUI_MAIN_MENU_TITLE, false))
+                .manager(DeinProtectPlugin.getPlugin().getInventoryManager())
+                .build();
     }
 
 }

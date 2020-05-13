@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 public class BlockLocation implements Serializable {
@@ -105,11 +106,6 @@ public class BlockLocation implements Serializable {
 
 
     @Override
-    public String toString() {
-        return "{\"worldId\": \"" + worldId.toString() + "\", \"posX\": " + posX + ", \"posY\": " + posY + ", \"posZ\": " + posZ + "}";
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof BlockLocation)) {
             return false;
@@ -125,4 +121,13 @@ public class BlockLocation implements Serializable {
         );
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(worldId, posX, posY, posZ);
+    }
+
+    @Override
+    public String toString() {
+        return "{\"worldId\": \"" + worldId.toString() + "\", \"posX\": " + posX + ", \"posY\": " + posY + ", \"posZ\": " + posZ + "}";
+    }
 }

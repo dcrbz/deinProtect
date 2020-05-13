@@ -2,21 +2,16 @@ package bz.dcr.deinprotect.protection.entity;
 
 import bz.dcr.deinprotect.block.BlockLocation;
 import bz.dcr.deinprotect.protection.ProtectionType;
-import org.bson.types.ObjectId;
 import org.bukkit.block.Block;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Entity
 public class Protection extends AbstractProtection {
 
-    @Id
-    private ObjectId id;
+    private UUID id;
 
     private List<BlockLocation> parts;
 
@@ -34,8 +29,12 @@ public class Protection extends AbstractProtection {
     // </editor-folding>
 
 
-    public ObjectId getId() {
+    public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public List<Block> getBlocks() {

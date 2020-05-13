@@ -4,83 +4,51 @@ import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionPermission;
-import org.bukkit.Bukkit;
+import fr.minuskube.inv.SmartInventory;
+import fr.minuskube.inv.content.InventoryContents;
+import fr.minuskube.inv.content.SlotPos;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import xyz.upperlevel.spigot.gui.GuiManager;
 
 import java.util.UUID;
 
 public class ContainerPermissionWindow extends PermissionWindow {
 
-    private static final int SLOT_OPEN = 0;
-    private static final int SLOT_PUT_ITEM = 1;
-    private static final int SLOT_TAKE_ITEM = 2;
-    private static final int SLOT_MANAGE = 3;
-    private static final int SLOT_BREAK = 4;
-
+    private static final SlotPos SLOT_OPEN = SlotPos.of(0, 0);
+    private static final SlotPos SLOT_PUT_ITEM = SlotPos.of(0, 1);
+    private static final SlotPos SLOT_TAKE_ITEM = SlotPos.of(0, 2);
+    private static final SlotPos SLOT_MANAGE = SlotPos.of(0, 3);
+    private static final SlotPos SLOT_BREAK = SlotPos.of(0, 4);
 
     public ContainerPermissionWindow(Protection protection, UUID memberId) {
-        super(
-                9,
-                DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.GUI_PERMISSIONS_TITLE, false),
-                protection,
-                memberId
-        );
+        super(protection, memberId);
     }
 
-
     @Override
-    public void show(Player player) {
-        setItem(SLOT_OPEN, buildPermissionSwitch(ProtectionPermission.CONTAINER_OPEN));
-        setItem(SLOT_PUT_ITEM, buildPermissionSwitch(ProtectionPermission.CONTAINER_PUT_ITEM));
-        setItem(SLOT_TAKE_ITEM, buildPermissionSwitch(ProtectionPermission.CONTAINER_TAKE_ITEM));
-        setItem(SLOT_MANAGE, buildPermissionSwitch(ProtectionPermission.MANAGE));
-        setItem(SLOT_BREAK, buildPermissionSwitch(ProtectionPermission.BREAK));
-
-        super.show(player);
+    public void init(Player player, InventoryContents inventoryContents) {
+        inventoryContents.set(SLOT_OPEN, buildPermissionSwitch(ProtectionPermission.CONTAINER_OPEN));
+        inventoryContents.set(SLOT_PUT_ITEM, buildPermissionSwitch(ProtectionPermission.CONTAINER_PUT_ITEM));
+        inventoryContents.set(SLOT_TAKE_ITEM, buildPermissionSwitch(ProtectionPermission.CONTAINER_TAKE_ITEM));
+        inventoryContents.set(SLOT_MANAGE, buildPermissionSwitch(ProtectionPermission.MANAGE));
+        inventoryContents.set(SLOT_BREAK, buildPermissionSwitch(ProtectionPermission.BREAK));
     }
 
-
     @Override
-    public void onClick(InventoryClickEvent event) {
-        final Player player = (Player) event.getWhoClicked();
-
-        switch (event.getSlot()) {
-            case SLOT_OPEN: {
-                getMember().togglePermission(ProtectionPermission.CONTAINER_OPEN);
-                break;
-            }
-            case SLOT_PUT_ITEM: {
-                getMember().togglePermission(ProtectionPermission.CONTAINER_PUT_ITEM);
-                break;
-            }
-            case SLOT_TAKE_ITEM: {
-                getMember().togglePermission(ProtectionPermission.CONTAINER_TAKE_ITEM);
-                break;
-            }
-            case SLOT_MANAGE: {
-                getMember().togglePermission(ProtectionPermission.MANAGE);
-                break;
-            }
-            case SLOT_BREAK: {
-                getMember().togglePermission(ProtectionPermission.BREAK);
-                break;
-            }
-            default:
-                return;
+    public void update(Player player, InventoryContents inventoryContents) {
+        if (!isUpdateRequired()) {
+            return;
         }
 
-        // Update member
-        getProtection().putMember(getMember());
-
-        // Save protection
-        Bukkit.getScheduler().runTaskAsynchronously(DeinProtectPlugin.getPlugin(), () -> {
-            DeinProtectPlugin.getPlugin().getProtectionManager().saveProtection(getProtection());
-        });
-
-        // Update GUI
-        GuiManager.reprint(player);
+        init(player, inventoryContents);
+        setUpdateRequired(false);
     }
 
+    public static SmartInventory getInventory(Protection protection, UUID memberId) {
+        return SmartInventory.builder()
+                .id("containerPermissionWindow")
+                .provider(new ContainerPermissionWindow(protection, memberId))
+                .size(1, 9)
+                .title(DeinProtectPlugin.getPlugin().getLangManager().getMessage(LangKey.GUI_PERMISSIONS_TITLE, false))
+                .manager(DeinProtectPlugin.getPlugin().getInventoryManager())
+                .build();
+    }
 }

@@ -48,7 +48,7 @@ public class ProtectionManager {
 
             // Invalid Material
             if (material == null) {
-                DeinProtectPlugin.getPlugin().getLogger().warning(materialName + " is not a valid material!");
+                DeinProtectPlugin.getPlugin().getLogger().warning(materialName + " is not a valid material! This is not an error, it will just be skipped.");
                 continue;
             }
 
@@ -63,8 +63,7 @@ public class ProtectionManager {
      * @param protection The {@link Protection} to save
      */
     public void saveProtection(Protection protection) {
-        DeinProtectPlugin.getPlugin().getMongoDB().getDatastore()
-                .save(protection);
+        DeinProtectPlugin.getPlugin().getPersistence().saveProtection(protection);
     }
 
     /**
@@ -73,8 +72,7 @@ public class ProtectionManager {
      * @param protection The {@link Protection} to delete
      */
     public void deleteProtection(Protection protection) {
-        DeinProtectPlugin.getPlugin().getMongoDB().getDatastore()
-                .delete(protection);
+        DeinProtectPlugin.getPlugin().getPersistence().deleteProtection(protection);
     }
 
     /**
@@ -140,11 +138,7 @@ public class ProtectionManager {
      * @return The {@link Protection} at the specified {@link BlockLocation}
      */
     public Protection getProtection(BlockLocation location) {
-        return DeinProtectPlugin.getPlugin().getMongoDB().getDatastore()
-                .createQuery(Protection.class)
-                .field("parts")
-                .hasThisOne(location)
-                .get();
+        return DeinProtectPlugin.getPlugin().getPersistence().getProtection(location);
     }
 
     /**

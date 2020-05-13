@@ -4,24 +4,25 @@ import bz.dcr.deinprotect.DeinProtectPlugin;
 import bz.dcr.deinprotect.config.LangKey;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionPermission;
+import fr.minuskube.inv.ClickableItem;
+import fr.minuskube.inv.content.InventoryProvider;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import xyz.upperlevel.spigot.gui.CustomGui;
 
-public abstract class PublicPermissionWindow extends CustomGui {
+public abstract class PublicPermissionWindow implements InventoryProvider {
+
+    private boolean updateRequired;
 
     private Protection protection;
 
-
-    public PublicPermissionWindow(int size, String title, Protection protection) {
-        super(size, title);
-
+    public PublicPermissionWindow(Protection protection) {
         this.setProtection(protection);
     }
 
 
-    protected ItemStack buildPermissionSwitch(ProtectionPermission permission) {
+    protected ClickableItem buildPermissionSwitch(ProtectionPermission permission) {
         final boolean hasPermission = protection.hasPublicPermission(permission);
 
         ItemStack item = hasPermission ? buildOnItem() : buildOffItem();
@@ -37,7 +38,27 @@ public abstract class PublicPermissionWindow extends CustomGui {
 
         item.setItemMeta(itemMeta);
 
-        return item;
+        return ClickableItem.of(item, (event) -> {
+            event.setCancelled(true);
+
+            getProtection().togglePublicPermission(permission);
+
+            // Save protection
+            Bukkit.getScheduler().runTaskAsynchronously(DeinProtectPlugin.getPlugin(), () -> {
+                DeinProtectPlugin.getPlugin().getProtectionManager().saveProtection(getProtection());
+            });
+
+            // Schedule update
+            setUpdateRequired(true);
+        });
+    }
+
+    protected boolean isUpdateRequired() {
+        return updateRequired;
+    }
+
+    protected void setUpdateRequired(boolean updateRequired) {
+        this.updateRequired = updateRequired;
     }
 
     private ItemStack buildOnItem() {

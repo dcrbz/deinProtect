@@ -5,29 +5,29 @@ import bz.dcr.deinprotect.config.LangKey;
 import bz.dcr.deinprotect.protection.entity.Protection;
 import bz.dcr.deinprotect.protection.entity.ProtectionMember;
 import bz.dcr.deinprotect.protection.entity.ProtectionPermission;
+import fr.minuskube.inv.ClickableItem;
+import fr.minuskube.inv.content.InventoryProvider;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import xyz.upperlevel.spigot.gui.CustomGui;
 
 import java.util.UUID;
 
-public abstract class PermissionWindow extends CustomGui {
+public abstract class PermissionWindow implements InventoryProvider {
+
+    private boolean updateRequired;
 
     private Protection protection;
     private UUID memberId;
     private ProtectionMember member;
 
-
-    public PermissionWindow(int size, String title, Protection protection, UUID memberId) {
-        super(size, title);
-
+    public PermissionWindow(Protection protection, UUID memberId) {
         this.setProtection(protection);
         this.setMemberId(memberId);
     }
 
-
-    protected ItemStack buildPermissionSwitch(ProtectionPermission permission) {
+    protected ClickableItem buildPermissionSwitch(ProtectionPermission permission) {
         final ProtectionMember member = protection.getMember(memberId);
 
         if (member == null) {
@@ -49,8 +49,32 @@ public abstract class PermissionWindow extends CustomGui {
 
         item.setItemMeta(itemMeta);
 
-        return item;
+        return ClickableItem.of(item, (event) -> {
+            event.setCancelled(true);
+
+            getMember().togglePermission(permission);
+
+            // Update member
+            getProtection().putMember(getMember());
+
+            // Save protection
+            Bukkit.getScheduler().runTaskAsynchronously(DeinProtectPlugin.getPlugin(), () -> {
+                DeinProtectPlugin.getPlugin().getProtectionManager().saveProtection(getProtection());
+            });
+
+            // Schedule update
+            setUpdateRequired(true);
+        });
     }
+
+    protected boolean isUpdateRequired() {
+        return updateRequired;
+    }
+
+    protected void setUpdateRequired(boolean updateRequired) {
+        this.updateRequired = updateRequired;
+    }
+
 
     private ItemStack buildOnItem() {
         return new ItemStack(Material.LIME_CONCRETE);
